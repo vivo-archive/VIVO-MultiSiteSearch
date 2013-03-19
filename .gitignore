@@ -1,6 +1,12 @@
-*.class
+# Eclipse artifacts
+.classpath
+project.classpath
+bin
 
-# Package Files #
-*.jar
-*.war
-*.ear
+# output from Ivy
+libs
+
+#emacs temp files
+*~
+[#]*[#]
+.\#*
