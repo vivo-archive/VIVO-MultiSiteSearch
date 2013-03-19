@@ -20,17 +20,18 @@ public class UriDiscovery   extends Mapper<Text, Text, Text, Text>{
 
 		static enum MyCounters { NUM_URIS_DISCOVERED};
 
+
 		@Override
 		protected void map(Text key, Text urlOfSite, Context context)
 				throws IOException, InterruptedException {			
+
+			context.getCounter(MyCounters.NUM_URIS_DISCOVERED).increment(1);
 			
 			//TODO: implement the loop to discovery the URIs for the site		
 			//write the found URI to output						
 			Text uriToIndex = new Text("http://localhost/individual1234");			
 			context.write( urlOfSite, uriToIndex);
 		}
-
-
 
 }
 		
