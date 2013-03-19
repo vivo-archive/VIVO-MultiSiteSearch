@@ -5,9 +5,8 @@ import java.io.IOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reporter;
 import org.apache.hadoop.mapreduce.Mapper;
+
 
 /**
  * Get all the URIs for a given site.
@@ -16,26 +15,22 @@ import org.apache.hadoop.mapreduce.Mapper;
  * OUTPUT: URIs of individuals from the sites that should be added to the index.
  * 
  */
-public class UriDiscovery  <K> extends Mapper<K, Text, Text, Text>{
+public class UriDiscovery   extends Mapper<Text, Text, Text, Text>{
 		Log log = LogFactory.getLog(UriDiscovery.class);
 
 		static enum MyCounters { NUM_URIS_DISCOVERED};
 
-		void map(K key,
-				Text value,
-				OutputCollector<Text,Text> output,
-				Reporter reporter) throws IOException {
+		@Override
+		protected void map(Text key, Text urlOfSite, Context context)
+				throws IOException, InterruptedException {			
 			
-			String siteURL = value.toString();
-			
-			//TODO: implement the loop to discovery the URIs for the site
-				
-			//Report that we found something
-			//reporter.incrCounter(NUM_URIS_DISCOVERED, 1);
-			
+			//TODO: implement the loop to discovery the URIs for the site		
 			//write the found URI to output						
 			Text uriToIndex = new Text("http://localhost/individual1234");			
-			output.collect(value , uriToIndex );
+			context.write( urlOfSite, uriToIndex);
 		}
+
+
+
 }
 		
