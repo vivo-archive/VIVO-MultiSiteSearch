@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+    xmlns:eclipse="antlib:com.unicorntoast.ant.ivy.eclipse"
+    xmlns:static="antlib:com.unicorntoast.ant.ivy.static_classpath"
+    xmlns:export="antlib:com.unicorntoast.ant.ivy.export"
+    xmlns:ivy="antlib:org.apache.ivy.ant"
+    default="help"
+    >
+
+  <property name="build.dir" value="build" />
+  <property name="src.dir" value="src" />
+
+  <!-- jars that are not from ivy dependency management -->
+  <property name="ivy.lib.dir" value="lib"/>
+
+  <!-- deifne the ivy task -->
+  <property name="ivy.jar.dir" value="${basedir}/contrib" />
+  <path id="ivy.lib.path"><fileset dir="${ivy.jar.dir}" includes="*.jar"/></path>
+  <taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
+
+  <!-- using http://code.google.com/p/ant-ivy-tools/ -->
+  <property name="ant_ivy_tools_classpath" value="contrib/ivy.jar:contrib/ant-ivy-tools.jar" />
+
+  <taskdef uri="antlib:com.unicorntoast.ant.ivy.eclipse" classpath="${ant_ivy_tools_classpath}" />
+  <taskdef uri="antlib:com.unicorntoast.ant.ivy.static_classpath" classpath="${ant_ivy_tools_classpath}" />
+  <taskdef uri="antlib:com.unicorntoast.ant.ivy.export" classpath="${ant_ivy_tools_classpath}" />
+
+  <!-- jar files in checked in lib dir -->
+  <path id="checkedin.classpath">
+    <fileset dir="lib" includes="*.jar" />
+  </path>
+
+  <!-- ================================= 
+       target: help
+       ================================= -->
+  <target name="help">
+    <echo>important: before first compile, execute "ant update-deps"</echo>
+    <echo />   
+    <echo>update-deps - fetch dependencies (ivy) and create necessary files ( .classpath, project.classpath )</echo>
+    <echo>compile</echo>
+    <echo>clean</echo>
+    <echo />
+    
+  </target>
+
+  <!-- ================================= 
+       target: update-deps
+       ================================= -->
+  <target  name="update-deps"> 
+    <!-- Some setups require a libs directory containing all
+     dependencies. This can be accomplished by the export task, which
+     will copy all jars into the output directory and will optionally
+     generate a corresponding classpath file.  
+
+     Note: the generated classpath file will contain the filenames
+     without any path information, this is where the pathprefix
+     argument comes into play. The classpath option of this task may
+     replace the previously mentioned static:store.  -->
+    <export:export settings="ivysettings.xml" input="ivy.xml" 
+                   classpath="project.classpath" output="libs" pathprefix="libs/" />
+
+
+    <!-- The following element will create an eclipse .classpath file which will include the
+    jars, sources and javadoc. Note: The generated .classpath and project.classpath files will
+    point to the jar files in your ivy cache. -->
+    <eclipse:classpath >
+      <entry kind="src" path="src" output="bin" />
+      <entry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6" />
+      <ivy settings="ivysettings.xml" input="ivy.xml" />
+    </eclipse:classpath>
+  </target>
+
+  <target name="compile" >
+    <mkdir dir="bin" />
+    <static:load input="project.classpath" refid="ivy.classpath" />  	  	  	  	
+  	<path id="compile.classpath" >
+  	    <path refid="checkedin.classpath"/>
+		<path refid="ivy.classpath" />
+  	</path>  	  	  	  	
+    <javac srcdir="src" destdir="bin" classpathref="compile.classpath" includeantruntime="false"/>      
+  </target>
+
+
+  <!-- ================================= 
+       target: clean
+       ================================= -->
+  <target name="clean">
+    <delete dir="bin" />
+  </target>
+	
+  <!-- ================================= 
+       target: clean-cache              
+       ================================= -->
+  <target name="clean-cache" 
+          description="--> clean the ivy cache">
+    <ivy:cleancache />
+  </target>
+
+</project>
+
+
+
+ 

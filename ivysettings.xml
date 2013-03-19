@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<!-- from http://code.google.com/p/ant-ivy-tools/wiki/GettingStarted -->
+
+<ivysettings>
+  <settings defaultResolver="default" />
+
+  <resolvers>
+
+    <!-- maven2 -->
+    <ibiblio name="ibiblio" m2compatible="true" />
+
+    <!-- jboss -->
+    <url name="jboss" m2compatible="true" >
+      <artifact pattern="http://repository.jboss.org/nexus/content/groups/public-jboss/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+    </url>
+
+    <!-- spring -->
+    <url name="com.springsource.repository.bundles.release">
+      <ivy pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+      <artifact pattern="http://repository.springsource.com/ivy/bundles/release/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+    </url>
+    <url name="com.springsource.repository.bundles.external">
+      <ivy pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+      <artifact pattern="http://repository.springsource.com/ivy/bundles/external/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+    </url>
+
+    <chain name="default">
+      <resolver ref="com.springsource.repository.bundles.release" />
+      <resolver ref="com.springsource.repository.bundles.external" />
+      <resolver ref="jboss" />
+      <resolver ref="ibiblio" />
+    </chain>
+
+  </resolvers>
+               
+</ivysettings>
+
