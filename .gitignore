@@ -2,7 +2,7 @@
 .classpath
 project.classpath
 bin
-
+build
 # output from Ivy
 libs
 

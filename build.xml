@@ -11,7 +11,7 @@
   <property name="src.dir" value="src" />
 
   <!-- jars that are not from ivy dependency management -->
-  <property name="ivy.lib.dir" value="lib"/>
+  <property name="ivy.lib.dir" value="libs"/>
 
   <!-- deifne the ivy task -->
   <property name="ivy.jar.dir" value="${basedir}/contrib" />
@@ -26,10 +26,13 @@
   <taskdef uri="antlib:com.unicorntoast.ant.ivy.export" classpath="${ant_ivy_tools_classpath}" />
 
   <!-- jar files in checked in lib dir -->
+  <property name="checkedin.dir" value="lib"/>
   <path id="checkedin.classpath">
-    <fileset dir="lib" includes="*.jar" />
+    <fileset dir="${checkedin.dir}" includes="*.jar" />
   </path>
 
+  <property name="classes.dir" value="bin"/>
+	
   <!-- ================================= 
        target: help
        ================================= -->
@@ -39,14 +42,14 @@
     <echo>update-deps - fetch dependencies (ivy) and create necessary files ( .classpath, project.classpath )</echo>
     <echo>compile</echo>
     <echo>clean</echo>
-    <echo />
-    
+    <echo>clean-cache</echo>
+    <echo />    
   </target>
-
+  	
   <!-- ================================= 
        target: update-deps
        ================================= -->
-  <target  name="update-deps"> 
+  <target  name="update-deps" description="--> update ivy dependencies"> 
     <!-- Some setups require a libs directory containing all
      dependencies. This can be accomplished by the export task, which
      will copy all jars into the output directory and will optionally
@@ -70,23 +73,42 @@
     </eclipse:classpath>
   </target>
 
-  <target name="compile" >
-    <mkdir dir="bin" />
+	
+  <!-- ================================= 
+	   target: Compile
+	   ================================= -->
+  <target name="compile" description="--> compile java classes">
+    <mkdir dir="${classes.dir}" />
     <static:load input="project.classpath" refid="ivy.classpath" />  	  	  	  	
   	<path id="compile.classpath" >
   	    <path refid="checkedin.classpath"/>
 		<path refid="ivy.classpath" />
   	</path>  	  	  	  	
-    <javac srcdir="src" destdir="bin" classpathref="compile.classpath" includeantruntime="false"/>      
+    <javac srcdir="src" destdir="${classes.dir}" classpathref="compile.classpath" includeantruntime="false"/>      
   </target>
-
-
+  
+  <!-- ================================= 
+	   target: fatjar
+	   ================================= -->
+  <target name="fatjar" description="--> make jar with classes and dependencies">
+    <static:load input="project.classpath" refid="ivy.classpath" />
+    <jar destfile="${build.dir}/vivo-multisite.jar">      
+      <zipgroupfileset dir="${ivy.lib.dir}">        
+        <include name="*.jar"/>
+	  </zipgroupfileset>
+      <zipgroupfileset dir="${checkedin.dir}">
+        <include name="*.jar"/>
+      </zipgroupfileset>
+      <fileset dir="${classes.dir}"/>
+	</jar>
+  </target>
   <!-- ================================= 
        target: clean
        ================================= -->
   <target name="clean">
-    <delete dir="bin" />
+    <delete dir="${classes.dir}" />
   </target>
+	
 	
   <!-- ================================= 
        target: clean-cache              
