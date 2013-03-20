@@ -6,6 +6,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
+import org.apache.hadoop.mapreduce.Mapper.Context;
+
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
 
 
 /**
@@ -23,20 +26,40 @@ import org.apache.hadoop.mapreduce.Mapper;
  */
 public class UriDiscovery   extends Mapper<Text, Text, Text, Text>{
 		Log log = LogFactory.getLog(UriDiscovery.class);
-
-		static enum MyCounters { NUM_URIS_DISCOVERED};
-
+		
+		private DiscoverUrisForSite uriSource;
+		
+		@Override
+		protected void setup(Context context) throws IOException,
+				InterruptedException {			
+			super.setup(context);
+			
+			String classname = context.getConfiguration().get(BuildIndexUtils.discoveryImpl) ;
+			Class disClass;
+			try {				
+				disClass = Class.forName(  classname );
+			} catch (ClassNotFoundException e) {
+				throw new Error("Cannot continue because could not load " +
+						"DiscoveryUrisForSite implementation of " + classname + " " + e.getMessage());
+			}
+			
+			try {
+				uriSource= (DiscoverUrisForSite) disClass.newInstance();
+			} catch (Exception e) {
+				throw new Error("Cannot continue because could not get new instance of " 
+						+ classname + " " + e.getMessage());
+			}
+					
+		}
 
 		@Override
 		protected void map(Text key, Text urlOfSite, Context context)
-				throws IOException, InterruptedException {			
-
-			context.getCounter(MyCounters.NUM_URIS_DISCOVERED).increment(1);
+				throws IOException, InterruptedException {
 			
-			//TODO: implement the loop to discovery the URIs for the site		
-			//write the found URI to output						
-			Text uriToIndex = new Text("http://localhost/individual1234");			
-			context.write( urlOfSite, uriToIndex);
+			for( String uri: uriSource.getUrisForSite(urlOfSite.toString(), context)){				
+				context.getCounter(BuildIndexUtils.coutners.URIS_DISCOVERED).increment(1);				
+				context.write( urlOfSite, new Text( uri ) );
+			}
 		}
 
 }

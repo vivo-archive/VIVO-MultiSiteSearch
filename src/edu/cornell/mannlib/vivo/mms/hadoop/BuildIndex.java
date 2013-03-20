@@ -40,6 +40,7 @@ public class BuildIndex  extends Configured implements Tool {
  
 		Path indexOutput = new Path(workingDir, "indexed");
 		
+		//set up the URI discovery job for the site
 		Job discoveryJob = new Job(conf);
 		discoveryJob.setJobName("BuildIndex.discovery");
 		discoveryJob.setMapperClass( UriDiscovery.class);
@@ -61,6 +62,7 @@ public class BuildIndex  extends Configured implements Tool {
 			System.err.println("Discovery job succeeded");			
 		}
 		
+		// set up the Indexing job for the URIs from discovery
 		Job indexJob = new Job(conf);
 		indexJob.setJobName("BuildIndex.index");
 		indexJob.setMapperClass( IndexUris.class);
