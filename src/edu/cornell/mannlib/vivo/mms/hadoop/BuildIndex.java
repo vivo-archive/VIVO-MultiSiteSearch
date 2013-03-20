@@ -24,17 +24,17 @@ public class BuildIndex  extends Configured implements Tool {
 	public int run(String[] args) throws Exception {
 		if (args.length != 2)
 			return printUsage();
-
-		String workingDir = args[1];
-		Configuration conf = getConf();
-
+			
 		// load the job configuration XML and add to hadoop's configuration
+		Configuration conf = getConf();
 		String configXmlPath = args[0];
 		conf.addResource(
 				new File(configXmlPath).getAbsoluteFile().toURI().toURL());
 		conf.reloadConfiguration();
 		checkConfig(conf);
 
+		String workingDir = args[1];
+        
 		Path discoveryInput = new Path(workingDir, "discoveryIn");
 		Path discoveryOutput = new Path(workingDir, "urisToIndex");
  
@@ -44,6 +44,7 @@ public class BuildIndex  extends Configured implements Tool {
 		Job discoveryJob = new Job(conf);
 		discoveryJob.setJobName("BuildIndex.discovery");
 		discoveryJob.setMapperClass( UriDiscovery.class);
+		discoveryJob.setJarByClass( UriDiscovery.class);
 		
 		FileInputFormat.addInputPath(discoveryJob, discoveryInput);
 		FileOutputFormat.setOutputPath(discoveryJob, discoveryOutput);
@@ -66,6 +67,7 @@ public class BuildIndex  extends Configured implements Tool {
 		Job indexJob = new Job(conf);
 		indexJob.setJobName("BuildIndex.index");
 		indexJob.setMapperClass( IndexUris.class);
+		indexJob.setJarByClass( IndexUris.class);
 		
 		FileInputFormat.addInputPath(indexJob, discoveryOutput);
 		FileOutputFormat.setOutputPath(indexJob, indexOutput);
@@ -73,8 +75,17 @@ public class BuildIndex  extends Configured implements Tool {
 		indexJob.setOutputKeyClass(Text.class);
 		indexJob.setOutputValueClass(Text.class);
 		
-		System.err.println("\nIndexing job submitted. Set to run in background.\n");
-		return 0;
+		System.err.println("\nIndexing job submitted and waiting for completion.\n");
+		boolean indexSuccess = 
+                indexJob.waitForCompletion(true);
+		
+		if( indexSuccess == false){
+            System.err.println("Indexing job failed");     
+            return 1;
+        }else{
+            System.err.println("Indexing job succeeded");
+            return 0;
+        }		
 	}
 
 	private void checkConfig(Configuration conf) {
