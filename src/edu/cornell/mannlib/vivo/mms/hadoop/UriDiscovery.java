@@ -10,7 +10,6 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
 
-
 /**
  * Get all the URIs for a given site.
  * 
@@ -22,9 +21,8 @@ import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
  * should be the site URL and the value should be the URI of an individual from that site.
  * ex.
  * [ "http://vivo.cornell.edu" : "http://vivo.cornell.edu/indiviudal134" ... ]
- * 
  */
-public class UriDiscovery   extends Mapper<LongWritable, Text, Text, Text>{
+public class UriDiscovery extends Mapper<LongWritable, Text, Text, Text>{
 		Log log = LogFactory.getLog(UriDiscovery.class);
 		
 		private DiscoverUrisForSite uriSource;
@@ -48,8 +46,7 @@ public class UriDiscovery   extends Mapper<LongWritable, Text, Text, Text>{
 			} catch (Exception e) {
 				throw new Error("Cannot continue because could not get new instance of " 
 						+ classname + " " + e.getMessage());
-			}
-					
+			}					
 		}
 
 		@Override
@@ -61,6 +58,4 @@ public class UriDiscovery   extends Mapper<LongWritable, Text, Text, Text>{
 				context.write( urlOfSite, new Text( uri ) );
 			}
 		}
-
 }
-		

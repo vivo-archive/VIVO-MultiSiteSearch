@@ -20,7 +20,8 @@ public class BuildIndex  extends Configured implements Tool {
 		System.exit(res);
 	}
 	
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public int run(String[] args) throws Exception {
 		if (args.length != 2)
 			return printUsage();
@@ -43,9 +44,9 @@ public class BuildIndex  extends Configured implements Tool {
 		//set up the URI discovery job for the site
 		Job discoveryJob = new Job(conf);
 		discoveryJob.setJobName("BuildIndex.discovery");
-		discoveryJob.setMapperClass( UriDiscovery.class);
+		discoveryJob.setMapperClass( getDiscoveryClass() );
 		discoveryJob.setNumReduceTasks(0);
-		discoveryJob.setJarByClass( UriDiscovery.class);
+		discoveryJob.setJarByClass( getDiscoveryClass() );
 		
 		FileInputFormat.addInputPath(discoveryJob, discoveryInput);
 		FileOutputFormat.setOutputPath(discoveryJob, discoveryOutput);
@@ -68,8 +69,8 @@ public class BuildIndex  extends Configured implements Tool {
 		// set up the Indexing job for the URIs from discovery
 		Job indexJob = new Job(conf);
 		indexJob.setJobName("BuildIndex.index");
-		indexJob.setMapperClass( IndexUris.class);
-		indexJob.setJarByClass( IndexUris.class);
+		indexJob.setMapperClass( getIndexClass() );
+		indexJob.setJarByClass( getIndexClass() );
 		
 		FileInputFormat.addInputPath(indexJob, discoveryOutput);
 		FileOutputFormat.setOutputPath(indexJob, indexOutput);
@@ -90,6 +91,16 @@ public class BuildIndex  extends Configured implements Tool {
         }		
 	}
 
+	@SuppressWarnings("rawtypes")
+    public Class getDiscoveryClass(){
+	    return UriDiscovery.class;
+	}
+	
+	@SuppressWarnings("rawtypes")
+    public Class getIndexClass(){
+	    return IndexUris.class;
+	}
+	
 	private void checkConfig(Configuration conf) {
 		// TODO Auto-generated method stub
 		
