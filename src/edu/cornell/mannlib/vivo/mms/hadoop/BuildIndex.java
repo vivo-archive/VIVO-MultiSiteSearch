@@ -44,6 +44,7 @@ public class BuildIndex  extends Configured implements Tool {
 		Job discoveryJob = new Job(conf);
 		discoveryJob.setJobName("BuildIndex.discovery");
 		discoveryJob.setMapperClass( UriDiscovery.class);
+		discoveryJob.setNumReduceTasks(0);
 		discoveryJob.setJarByClass( UriDiscovery.class);
 		
 		FileInputFormat.addInputPath(discoveryJob, discoveryInput);
@@ -52,6 +53,7 @@ public class BuildIndex  extends Configured implements Tool {
 		discoveryJob.setOutputKeyClass(Text.class);
 		discoveryJob.setOutputValueClass(Text.class);
 				
+		discoveryJob.setNumReduceTasks(0);
 		System.err.println("\nDiscovery job submitted and waiting for completion.\n");
 		boolean discoverySuccess = 
 				discoveryJob.waitForCompletion(true);
