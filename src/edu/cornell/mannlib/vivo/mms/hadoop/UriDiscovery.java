@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Mapper.Context;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
 
@@ -24,7 +24,7 @@ import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
  * [ "http://vivo.cornell.edu" : "http://vivo.cornell.edu/indiviudal134" ... ]
  * 
  */
-public class UriDiscovery   extends Mapper<Text, Text, Text, Text>{
+public class UriDiscovery   extends Mapper<LongWritable, Text, Text, Text>{
 		Log log = LogFactory.getLog(UriDiscovery.class);
 		
 		private DiscoverUrisForSite uriSource;
@@ -53,7 +53,7 @@ public class UriDiscovery   extends Mapper<Text, Text, Text, Text>{
 		}
 
 		@Override
-		protected void map(Text key, Text urlOfSite, Context context)
+		protected void map(LongWritable lineNum, Text urlOfSite, Context context)
 				throws IOException, InterruptedException {
 			
 			for( String uri: uriSource.getUrisForSite(urlOfSite.toString(), context)){				
