@@ -54,7 +54,7 @@ public class UriDiscovery extends Mapper<LongWritable, Text, Text, Text>{
 				throws IOException, InterruptedException {
 			
 			for( String uri: uriSource.getUrisForSite(urlOfSite.toString(), context)){				
-				context.getCounter(BuildIndexUtils.coutners.URIS_DISCOVERED).increment(1);				
+				context.getCounter(BuildIndexUtils.Counters.URIS_DISCOVERED).increment(1);				
 				context.write( urlOfSite, new Text( uri ) );
 			}
 		}
