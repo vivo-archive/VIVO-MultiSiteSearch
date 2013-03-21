@@ -1,5 +1,6 @@
 # Eclipse artifacts
 .classpath
+.project
 project.classpath
 bin
 build
