@@ -32,6 +32,7 @@
   </path>
 
   <property name="classes.dir" value="bin"/>
+  <property name="config.dir" location="config" />
 	
   <!-- ================================= 
        target: help
@@ -103,9 +104,26 @@
 	</jar>
   </target>
   <!-- ================================= 
+	   target: nestedjar
+	   ================================= -->
+  <target name="nestedjar" description="--> make jar with 3rd-party jars in /lib">
+    <static:load input="project.classpath" refid="ivy.classpath" />
+    <jar destfile="${build.dir}/nested-multisite.jar">      
+      <zipfileset dir="${ivy.lib.dir}" prefix="lib/">        
+        <include name="*.jar"/>
+	  </zipfileset>
+      <zipfileset dir="${checkedin.dir}" prefix="lib/">
+        <include name="*.jar"/>
+      </zipfileset>
+      <fileset dir="${classes.dir}"/>
+      <fileset dir="${config.dir}"/>
+	</jar>
+  </target>
+
+	<!-- ================================= 
        target: clean
        ================================= -->
-  <target name="clean">
+  <target name="clean" description="remove compiled classes">
     <delete dir="${classes.dir}" />
   </target>
 	
