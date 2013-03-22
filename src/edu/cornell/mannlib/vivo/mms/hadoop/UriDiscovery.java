@@ -9,6 +9,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
+import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
 
 /**
  * Get all the URIs for a given site.
@@ -30,6 +31,7 @@ public class UriDiscovery extends Mapper<LongWritable, Text, Text, Text>{
 		@Override
 		protected void setup(Context context) throws IOException,
 				InterruptedException {			
+			Log4JHelper.addConfigfile("log4j.job.properties");
 			super.setup(context);
 			
 			String classname = context.getConfiguration().get(BuildIndexUtils.discoveryImpl) ;
