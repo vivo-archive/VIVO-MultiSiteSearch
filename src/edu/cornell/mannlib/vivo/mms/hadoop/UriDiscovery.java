@@ -8,6 +8,7 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
 import edu.cornell.mannlib.vivo.mms.utils.HadoopContextHelper;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
@@ -38,13 +39,12 @@ public class UriDiscovery extends Mapper<LongWritable, Text, Text, Text> {
 				BuildIndexUtils.discoveryImpl, DiscoverUrisForSite.class);
 	}
 
-		@Override
-		protected void map(LongWritable lineNum, Text urlOfSite, Context context)
-				throws IOException, InterruptedException {
-			
-			for( String uri: uriSource.getUrisForSite(urlOfSite.toString(), context)){				
-				context.getCounter(BuildIndexUtils.Counters.URIS_DISCOVERED).increment(1);				
-				context.write( urlOfSite, new Text( uri ) );
-			}
+	@Override
+	protected void map(LongWritable lineNum, Text urlOfSite, Context context)
+			throws IOException, InterruptedException {
+		for (String uri : uriSource.getUrisForSite(urlOfSite.toString(), DiscoverUrisContext.wrap(context))) {
+			context.getCounter(BuildIndexUtils.Counters.URIS_DISCOVERED).increment(1);
+			context.write(urlOfSite, new Text(uri));
 		}
+	}
 }
