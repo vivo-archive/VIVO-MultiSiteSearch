@@ -1,9 +1,16 @@
 package edu.cornell.mannlib.vivo.mms.linkedData;
 
-import com.hp.hpl.jena.rdf.model.Model;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.mapred.JobConf;
+import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
 
+/**
+ Interface for getting the RDF for a given URI.
+*/
 public interface LinkedDataSource {
 
-    Model getData(String uri, org.apache.hadoop.mapreduce.Mapper.Context context);
+    /** Returns the RDF needed to make a  solr document for a given URI. 
+     * @throws Exception */
+    RDFService getData(String uri,  Configuration configuration) throws Exception;    
     
 }
