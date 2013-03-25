@@ -17,9 +17,9 @@ import com.hp.hpl.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
 import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataGetter;
-import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataSource;
-import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataSourceImpl;
-import edu.cornell.mannlib.vivo.mms.linkedData.UrisForDataExpansion;
+import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpander;
+import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpanderImpl;
+import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpanderUtils;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMaker;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMakerImpl;
 
@@ -39,7 +39,7 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
 
 	DocumentMaker docMaker;	
 	SolrServer solrServer;
-	LinkedDataSource dataSource;
+	LinkedDataExpander dataSource;
 	
 	@Override
     protected void setup(Context context) throws IOException,
@@ -52,12 +52,12 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
     protected void setupLinkedDataSource(
             org.apache.hadoop.mapreduce.Mapper.Context context) {
         dataSource = 
-                new LinkedDataSourceImpl(
+                new LinkedDataExpanderImpl(
                         new LinkedDataGetter(new DefaultHttpClient()),
-                        new UrisForDataExpansion(
-            UrisForDataExpansion.getVivoTwoHopPredicates(), 
-            UrisForDataExpansion.getDefaultSkippedPredicates(), 
-            UrisForDataExpansion.getDefaultSkippedResourceNS()));
+                        new LinkedDataExpanderUtils(
+            LinkedDataExpanderUtils.getVivoTwoHopPredicates(), 
+            LinkedDataExpanderUtils.getDefaultSkippedPredicates(), 
+            LinkedDataExpanderUtils.getDefaultSkippedResourceNS()));
     }
 
     protected void setupSolrServer(

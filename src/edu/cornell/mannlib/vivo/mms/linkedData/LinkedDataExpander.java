@@ -7,7 +7,7 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
 /**
  Interface for getting the RDF for a given URI.
 */
-public interface LinkedDataSource {
+public interface LinkedDataExpander {
 
     /** Returns the RDF needed to make a  solr document for a given URI. 
      * @throws Exception */

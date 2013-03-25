@@ -37,12 +37,12 @@ import com.hp.hpl.jena.shared.Lock;
   *
   */
   
-public class UrisForDataExpansion  {
+public class LinkedDataExpanderUtils  {
     public Set<String> twoHopPredicates;
     public Set<String> predicatesToSkip;
     public Set<String> resouceNsToSkip;
 
-    public UrisForDataExpansion(Set<String> twoHopPredicates, 
+    public LinkedDataExpanderUtils(Set<String> twoHopPredicates, 
                                 Set<String> predicatesToSkip, 
                                 Set<String> resouceNsToSkip){
         this.twoHopPredicates = twoHopPredicates;

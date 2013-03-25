@@ -19,13 +19,14 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.impl.jena.model.RDFServiceMod
 /**
  LinkedDataSource implementation that uses HTTPClient and
  an in memory jena Model for the RDF.
+ * @version
  */
-public class LinkedDataSourceImpl implements LinkedDataSource {
+public class LinkedDataExpanderImpl implements LinkeDataSource {
     private LinkedDataGetter ldGetter;
-    private UrisForDataExpansion uriExpander;
+    private LinkedDataExpanderUtils uriExpander;
 
-    public LinkedDataSourceImpl(LinkedDataGetter ldg,
-            UrisForDataExpansion urisForDataExpansion) {
+    public LinkedDataExpanderImpl(LinkedDataGetter ldg,
+            LinkedDataExpanderUtils urisForDataExpansion) {
         this.ldGetter = ldg;
         this.uriExpander = urisForDataExpansion;
     }
@@ -109,6 +110,6 @@ public class LinkedDataSourceImpl implements LinkedDataSource {
         return (uri.substring(7).contains("//"));
     }
 
-    Log logger = LogFactory.getLog(LinkedDataSourceImpl.class);
+    Log logger = LogFactory.getLog(LinkedDataExpanderImpl.class);
 
 }
