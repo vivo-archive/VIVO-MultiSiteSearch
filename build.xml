@@ -87,6 +87,19 @@
   	</path>  	  	  	  	
     <javac srcdir="src" destdir="${classes.dir}" classpathref="compile.classpath" includeantruntime="false"/>      
   </target>
+
+  <!-- ====================
+       Target: compileTests
+       ==================== -->
+  <target name="compileTests" depends="compile" >
+    <static:load input="project.classpath" refid="ivy.classpath" />  	  	  	  	
+  	<path id="compile.classpath" >
+  	    <path refid="checkedin.classpath"/>
+		<path refid="ivy.classpath" />
+  	</path>  	  	  	  	
+    <javac srcdir="test" destdir="${classes.dir}" classpathref="compile.classpath" includeantruntime="false"/>   
+  </target>
+
   
   <!-- ================================= 
 	   target: fatjar
@@ -103,6 +116,7 @@
       <fileset dir="${classes.dir}"/>
 	</jar>
   </target>
+
   <!-- ================================= 
 	   target: nestedjar
 	   ================================= -->
@@ -120,10 +134,39 @@
 	</jar>
   </target>
 
-	<!-- ================================= 
+
+  <!-- ========================
+       Target: test
+       ======================== -->
+  <target name="unitTests" depends="compileTests" description="--> run unit tests">
+
+    <path id="testResources.classpath">
+      <fileset dir="test" >
+        <exclude name="*.java" />
+      </fileset>
+    </path>
+
+  
+
+    <junit printsummary="yes" haltonfailure="yes" fork="yes">
+      <formatter type="plain"/>
+      <classpath>
+        <path refid="checkedin.classpath"/>
+        <path refid="ivy.classpath" />
+        <path refid="testResources.classpath"/>
+      </classpath> 
+      <batchtest fork="yes" >
+        <fileset dir="src">
+          <include name="**/*Test*.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+  </target>
+
+  <!-- ================================= 
        target: clean
        ================================= -->
-  <target name="clean" description="remove compiled classes">
+  <target name="clean" description="--> remove compiled classes">
     <delete dir="${classes.dir}" />
   </target>
 	
