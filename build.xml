@@ -85,7 +85,9 @@
   	    <path refid="checkedin.classpath"/>
 		<path refid="ivy.classpath" />
   	</path>  	  	  	  	
-    <javac srcdir="src" destdir="${classes.dir}" classpathref="compile.classpath" includeantruntime="false"/>      
+    <javac srcdir="src" destdir="${classes.dir}" 
+           classpathref="compile.classpath" includeantruntime="false"
+           compiler="javac1.7"/>      
   </target>
 
   <!-- ====================
