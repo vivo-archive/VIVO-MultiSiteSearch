@@ -20,7 +20,8 @@ public class LinkedDataExpanderTest {
 
         Model m = ModelFactory.createDefaultModel();
         m.read( in, null , "N3" );
-        assertTrue("The testing model created from bdc34.n3 should have some statements" , m.size() > 0 );
+        assertTrue("The testing model created from bdc34.n3 should have "+
+                   "some statements" , m.size() > 0 );
         
         
         
