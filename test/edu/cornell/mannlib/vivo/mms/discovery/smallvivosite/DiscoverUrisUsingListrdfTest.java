@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package edu.cornell.mannlib.vivo.mms.discovery.vivotarget;
+package edu.cornell.mannlib.vivo.mms.discovery.smallvivosite;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -23,7 +23,7 @@ import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
 /**
  * TODO
  */
-public class UrlsForClassForVivoSiteTest extends AbstractTestClass {
+public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 	private static final Document HARDCODED_RDF = parseXml("<rdf:RDF\n"
 			+ "    xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
 			+ "    xmlns:j.0=\"http://xmlns.com/foaf/0.1/\" > \n"
@@ -31,7 +31,7 @@ public class UrlsForClassForVivoSiteTest extends AbstractTestClass {
 			+ "    <rdf:type rdf:resource=\"http://xmlns.com/foaf/0.1/Person\"/>\n"
 			+ "  </rdf:Description>\n" + "</rdf:RDF>\n");
 
-	private UrlsForClassForVivoSite urlFinder;
+	private DiscoverUrisUsingListrdf urlFinder;
 	private DiscoverUrisContext duContext;
 
 	private static Document parseXml(String xml) {
@@ -70,9 +70,10 @@ public class UrlsForClassForVivoSiteTest extends AbstractTestClass {
 			}
 		};
 
-		urlFinder = new UrlsForClassForVivoSite("BOGUS", "BOGUS", duContext);
+		urlFinder = new DiscoverUrisUsingListrdf();
 
-		assertUnorderedActualIterable("URIs", urlFinder.getUris(),
+		assertUnorderedActualIterable("URIs",
+				urlFinder.getUrisForSite("BOGUS", duContext),
 				"http://vivo.mydomain.edu/individual/n5638");
 	}
 
