@@ -13,14 +13,16 @@ public class LinkedDataExpanderTest {
 
     @Test
     public void test() {
-        InputStream in = 
-            this.getClass().getClassLoader().getResourceAsStream("resources/bdc34.n3");
-
-        assertNotNull( in );
+        String exampleRdf = "edu/cornell/mannlib/vivo/mms/linkedData/resources/bdc34.n3";
+         InputStream in = 
+            this.getClass().getClassLoader().getResourceAsStream(exampleRdf);
+        assertNotNull("Could not read in " +exampleRdf , in);
 
         Model m = ModelFactory.createDefaultModel();
         m.read( in, null , "N3" );
         assertTrue("The testing model created from bdc34.n3 should have some statements" , m.size() > 0 );
+        
+        
         
     }
 

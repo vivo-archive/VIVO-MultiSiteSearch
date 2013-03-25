@@ -19,7 +19,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 
 /**
  * A class to use apache commons HttpClient to make
- * requests for RDF
+ * requests for RDF.
  *
  * Redirects are handled by HttpClient.
  *
@@ -29,12 +29,12 @@ import com.hp.hpl.jena.rdf.model.Model;
  * deal with character encoding
  */
 
-public class LinkedDataGetter{
-    Log logger = LogFactory.getLog(LinkedDataGetter.class);
+public class HttpLinkedDataService implements LinkedDataService {
+    Log logger = LogFactory.getLog(HttpLinkedDataService.class);
 
     HttpClient http;
 
-    public LinkedDataGetter(HttpClient http){
+    public HttpLinkedDataService(HttpClient http){
         this.http = http;
     }
 
@@ -60,7 +60,7 @@ public class LinkedDataGetter{
     }
 
 
-    public void responseToModel(String uri, Model m, HttpResponse response)
+    protected void responseToModel(String uri, Model m, HttpResponse response)
         throws Exception {
         logger.trace( "got response "+response+" for "+uri);
         if( response == null )
@@ -89,7 +89,7 @@ public class LinkedDataGetter{
         }
     }
 
-    public String getRDFType( HttpEntity entity ) throws Exception{
+    protected String getRDFType( HttpEntity entity ) throws Exception{
         if( entity == null )
             throw new Exception("Could not identifiy content type: HttpResponse entity was null.");
         if( entity.getContentType() == null )
@@ -115,7 +115,7 @@ public class LinkedDataGetter{
         }
     }    
 
-    private static final String RDF_ACCEPT_HEADER =
+    protected static final String RDF_ACCEPT_HEADER =
         "text/n3, text/rdf+n3, application/rdf+xml;q=0.9, text/turtle;q=0.8";
     
     private static final Map<String,String>HEADER_TO_JENASTR;
@@ -129,7 +129,7 @@ public class LinkedDataGetter{
     }
 
 
-    private void close(  HttpResponse response ) {
+    protected void close(  HttpResponse response ) {
         try{
             if( response != null ){
                 HttpEntity entity = response.getEntity();
