@@ -1,0 +1,151 @@
+@prefix hr:      <http://vivo.cornell.edu/ns/hr/0.9/hr.owl#> .
+@prefix aka:     <http://vivoweb.org/ontology/aka#> .
+@prefix scires:  <http://vivoweb.org/ontology/scientific-research#> .
+@prefix pubmed:  <http://vitro.mannlib.cornell.edu/ns/pubmed#> .
+@prefix dcterms:  <http://purl.org/dc/terms/> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vitro:   <http://vitro.mannlib.cornell.edu/ns/vitro/0.7#> .
+@prefix event:   <http://purl.org/NET/c4dm/event.owl#> .
+@prefix vivoc:   <http://vivo.library.cornell.edu/ns/0.1#> .
+@prefix c4o:     <http://purl.org/spar/c4o/> .
+@prefix cce:     <http://vivoweb.org/ontology/cornell-cooperative-extension#> .
+@prefix vivo:    <http://vivoweb.org/ontology/core#> .
+@prefix dcelem:  <http://purl.org/dc/elements/1.1/> .
+@prefix pvs:     <http://vivoweb.org/ontology/provenance-support#> .
+@prefix geo:     <http://aims.fao.org/aos/geopolitical.owl#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix aktp:    <http://www.aktors.org/ontology/portal#> .
+@prefix far:     <http://vitro.mannlib.cornell.edu/ns/reporting#> .
+@prefix fabio:   <http://purl.org/spar/fabio/> .
+@prefix ospcu:   <http://vivoweb.org/ontology/cu-vivo-osp#> .
+@prefix acti:    <http://vivoweb.org/ontology/activity-insight#> .
+@prefix stars:   <http://vitro.mannlib.cornell.edu/ns/cornell/stars/classes#> .
+@prefix bibo:    <http://purl.org/ontology/bibo/> .
+@prefix socsci:  <http://vivo.library.cornell.edu/ns/vivo/socsci/0.1#> .
+@prefix rdfsyn:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix local:   <http://vivo.cornell.edu/ontology/local#> .
+@prefix vitro-public:  <http://vitro.mannlib.cornell.edu/ns/vitro/public#> .
+@prefix mann:    <http://vivo.cornell.edu/ns/mannadditions/0.1#> .
+@prefix skos:    <http://www.w3.org/2004/02/skos/core#> .
+@prefix ero:     <http://purl.obolibrary.org/obo/> .
+
+<http://vivo.cornell.edu/individual/CornellsVIVOconceptwillexpandtoconnectresearchersnationwide>
+      rdfs:label "Cornell's VIVO concept will expand to connect researchers nationwide"@en-US .
+
+<http://vivo.cornell.edu/individual/n67344>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:Relationship , vivo:Authorship ;
+      vivo:authorRank "3"^^<http://www.w3.org/2001/XMLSchema#int> ;
+      vivo:linkedAuthor <http://vivo.cornell.edu/individual/individual19589> ;
+      vivo:linkedInformationResource
+              <http://vivo.cornell.edu/individual/n467508> .
+
+<http://vivo.cornell.edu/individual/individual19589>
+      a       vivoc:CornellEmployee , foaf:Person , mann:CornellNonAcademicStaff , local:InternalThing , <http://www.w3.org/2002/07/owl#Thing> , foaf:Agent , vivoc:CornellAffiliatedPerson , vivo:NonAcademic ;
+      rdfs:label "Caruso, Brian D." ;
+      hr:primaryJobcodeLdesc
+              "Prog Analyst III" ;
+      hr:primaryWorkingTitle
+              "Applications Programmer III" ;
+      vivo:authorInAuthorship
+              <http://vivo.cornell.edu/individual/n67344> , <http://vivo.cornell.edu/individual/n31418> , <http://vivo.cornell.edu/individual/n27229> , <http://vivo.cornell.edu/individual/n33462> , <http://vivo.cornell.edu/individual/n38317> ;
+      vivo:featuredIn <http://vivo.cornell.edu/individual/CornellsVIVOconceptwillexpandtoconnectresearchersnationwide> ;
+      vivo:hasPresenterRole
+              <http://vivo.cornell.edu/individual/n22367> ;
+      vivo:overview "Programmer at Mann Library." ;
+      vivo:personInPosition
+              <http://vivo.cornell.edu/individual/empl1776820-position1> ;
+      vivo:webpage <http://vivo.cornell.edu/individual/n34059> ;
+      foaf:firstName "Brian" ;
+      foaf:lastName "Caruso" .
+
+<http://vivo.cornell.edu/individual/n467508>
+      rdfs:label "VIVO Development Roadmap: Enhancing an Ontology-Based University Research Portal with OWL and Rules"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+vivo:yearPrecision
+      rdfs:label "yearPrecision"@en-US .
+
+<http://vivo.cornell.edu/individual/n188191>
+      rdfs:label "DataStaR: Using the Semantic Web approach for Data Curation"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+<http://vivo.cornell.edu/individual/empl1776820-position1>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:Position , vivo:PrimaryPosition , vivo:NonAcademicPosition ;
+      rdfs:label "Applications Programmer III" ;
+      hr:LDAPJobNumber "1" ;
+      vivo:hrJobTitle "Applications Programmer III" ;
+      vivo:positionForPerson
+              <http://vivo.cornell.edu/individual/individual19589> ;
+      vivo:positionInOrganization
+              <http://vivo.cornell.edu/individual/individual1> ;
+      <http://vivoweb.org/ontology/newhr#company>
+              "STA" ;
+      <http://vivoweb.org/ontology/newhr#headInd>
+              "P" .
+
+<http://vivo.cornell.edu/individual/n59526>
+      rdfs:label "VIVO: Case Study of an Ontology-Based Web Site"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+<http://vivo.cornell.edu/individual/n24126>
+      rdfs:label "VIVO: Connecting People, Creating a Virtual Life Sciences Community"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+<http://vivo.cornell.edu/individual/n33462>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:Relationship , vivo:Authorship ;
+      vivo:authorRank "2"^^<http://www.w3.org/2001/XMLSchema#int> ;
+      vivo:linkedAuthor <http://vivo.cornell.edu/individual/individual19589> ;
+      vivo:linkedInformationResource
+              <http://vivo.cornell.edu/individual/n59526> .
+
+<http://vivo.cornell.edu/individual/n15280>
+      rdfs:label "VIVO: Enabling National Networking of Scientists"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+<http://vivo.cornell.edu/individual/n34834>
+      rdfs:label "DataStaR: An Ontology-Based Approach to Representing Metadata for Research Datasets"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+<http://vivo.cornell.edu/individual/n41531>
+      a       vivo:DateTimeValue , <http://www.w3.org/2002/07/owl#Thing> ;
+      vivo:dateTime "2011-01-01T00:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+      vivo:dateTimePrecision
+              vivo:yearPrecision .
+
+<http://vivo.cornell.edu/individual/n38317>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:Relationship , vivo:Authorship ;
+      vivo:authorRank "3"^^<http://www.w3.org/2001/XMLSchema#int> ;
+      vivo:linkedAuthor <http://vivo.cornell.edu/individual/individual19589> ;
+      vivo:linkedInformationResource
+              <http://vivo.cornell.edu/individual/n15280> .
+
+<http://vivo.cornell.edu/individual/n27229>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:Relationship , vivo:Authorship ;
+      vivo:authorRank "2"^^<http://www.w3.org/2001/XMLSchema#int> ;
+      vivo:linkedAuthor <http://vivo.cornell.edu/individual/individual19589> ;
+      vivo:linkedInformationResource
+              <http://vivo.cornell.edu/individual/n188191> .
+
+<http://vivo.cornell.edu/individual/n31418>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:Relationship , vivo:Authorship ;
+      vivo:authorRank "3"^^<http://www.w3.org/2001/XMLSchema#int> ;
+      vivo:linkedAuthor <http://vivo.cornell.edu/individual/individual19589> ;
+      vivo:linkedInformationResource
+              <http://vivo.cornell.edu/individual/n24126> .
+
+<http://vivo.cornell.edu/individual/n22367>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:Role , vivo:PresenterRole ;
+      rdfs:label "Presenter"^^<http://www.w3.org/2001/XMLSchema#string> ;
+      vivo:dateTimeInterval
+              <http://vivo.cornell.edu/individual/n183692> ;
+      vivo:presenterRoleOf
+              <http://vivo.cornell.edu/individual/individual19589> ;
+      vivo:roleRealizedIn <http://vivo.cornell.edu/individual/n34834> .
+
+<http://vivo.cornell.edu/individual/n183692>
+      a       <http://www.w3.org/2002/07/owl#Thing> , vivo:DateTimeInterval ;
+      vivo:end <http://vivo.cornell.edu/individual/n59095> ;
+      vivo:start <http://vivo.cornell.edu/individual/n41531> .
+
+<http://vivo.cornell.edu/individual/individual1>
+      rdfs:label "Albert R. Mann Library" , "Albert R. Mann Library"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+<http://vivo.cornell.edu/individual/n59095>
+      a       vivo:DateTimeValue , <http://www.w3.org/2002/07/owl#Thing> ;
+      vivo:dateTime "2011-01-01T00:00:00"^^<http://www.w3.org/2001/XMLSchema#dateTime> ;
+      vivo:dateTimePrecision
+              vivo:yearPrecision .

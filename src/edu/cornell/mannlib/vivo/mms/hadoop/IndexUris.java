@@ -19,7 +19,7 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
 import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataGetter;
 import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpander;
 import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpanderImpl;
-import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpanderUtils;
+import edu.cornell.mannlib.vivo.mms.linkedData.UrisToExpand;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMaker;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMakerImpl;
 
@@ -54,10 +54,10 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
         dataSource = 
                 new LinkedDataExpanderImpl(
                         new LinkedDataGetter(new DefaultHttpClient()),
-                        new LinkedDataExpanderUtils(
-            LinkedDataExpanderUtils.getVivoTwoHopPredicates(), 
-            LinkedDataExpanderUtils.getDefaultSkippedPredicates(), 
-            LinkedDataExpanderUtils.getDefaultSkippedResourceNS()));
+                        new UrisToExpand(
+            UrisToExpand.getVivoTwoHopPredicates(), 
+            UrisToExpand.getDefaultSkippedPredicates(), 
+            UrisToExpand.getDefaultSkippedResourceNS()));
     }
 
     protected void setupSolrServer(

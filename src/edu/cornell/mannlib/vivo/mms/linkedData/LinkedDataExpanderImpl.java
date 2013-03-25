@@ -23,10 +23,10 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.impl.jena.model.RDFServiceMod
  */
 public class LinkedDataExpanderImpl implements LinkeDataSource {
     private LinkedDataGetter ldGetter;
-    private LinkedDataExpanderUtils uriExpander;
+    private UrisToExpand uriExpander;
 
     public LinkedDataExpanderImpl(LinkedDataGetter ldg,
-            LinkedDataExpanderUtils urisForDataExpansion) {
+            UrisToExpand urisForDataExpansion) {
         this.ldGetter = ldg;
         this.uriExpander = urisForDataExpansion;
     }
