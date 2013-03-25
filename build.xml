@@ -141,12 +141,8 @@
   <target name="unitTests" depends="compileTests" description="--> run unit tests">
 
     <path id="testResources.classpath">
-      <fileset dir="test" >
-        <exclude name="*.java" />
-      </fileset>
+    	<pathelement location="test"/>
     </path>
-
-  
 
     <junit printsummary="yes" haltonfailure="yes" fork="yes">
       <formatter type="plain"/>
@@ -156,7 +152,7 @@
         <path refid="testResources.classpath"/>
       </classpath> 
       <batchtest fork="yes" >
-        <fileset dir="src">
+        <fileset dir="test">
           <include name="**/*Test*.java"/>
         </fileset>
       </batchtest>

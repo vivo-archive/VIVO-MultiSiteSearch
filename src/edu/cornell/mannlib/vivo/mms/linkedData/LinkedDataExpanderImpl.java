@@ -21,7 +21,7 @@ import edu.cornell.mannlib.vitro.webapp.rdfservice.impl.jena.model.RDFServiceMod
  an in memory jena Model for the RDF.
  * @version
  */
-public class LinkedDataExpanderImpl implements LinkeDataSource {
+public class LinkedDataExpanderImpl implements LinkedDataExpander {
     private LinkedDataGetter ldGetter;
     private UrisToExpand uriExpander;
 

@@ -35,7 +35,7 @@ public class BuildIndex  extends Configured implements Tool {
 		checkConfig(conf);
 
 		String workingDir = args[1];
-        conf.set(BuildIndex.workingDir, workingDir);
+        conf.set(BuildIndexUtils.workingDir, workingDir);
 
 		Path discoveryInput = new Path(workingDir, "discoveryIn");
 		Path discoveryOutput = new Path(workingDir, "urisToIndex");
