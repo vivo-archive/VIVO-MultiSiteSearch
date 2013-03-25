@@ -2,8 +2,6 @@
 
 package edu.cornell.mannlib.vivo.mms.utils;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -18,14 +16,6 @@ import edu.cornell.mannlib.vivo.mms.utils.XmlUtils.XmlUtilsException;
  */
 public class HttpWorkerImpl implements HttpWorker {
 	private static final Log log = LogFactory.getLog(HttpWorkerImpl.class);
-
-	private static DocumentBuilderFactory factory = createDocBuilderFactory();
-
-	private static DocumentBuilderFactory createDocBuilderFactory() {
-		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-		dbf.setNamespaceAware(true); // never forget this!
-		return dbf;
-	}
 
 	/**
 	 * Don't forget to URLEncode the parameter keys and values.

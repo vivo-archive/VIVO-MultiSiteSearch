@@ -36,10 +36,7 @@ public class UrlsForClassForVivoSite {
 	 * Get the URIs for each class
 	 *   Use an HttpClient (from the context) to hit listrdf 
 	 *     e.g. http://localhost:8080/vivo/listrdf?vclass=http://xmlns.com/foaf/0.1/Person
-	 *     don't forget to URLEncode the Class URI
-	 *     Return could be 200 x 50K = 10M in size
-	 * 
-	 * http://localhost:8080/vivo/listrdf?vclass=http://xmlns.com/foaf/0.1/Person
+	 *     Return could be 200 bytes per person x 50K persons = 10M in size
 	 * </pre>
 	 */
 	public Iterable<String> getUris() {
