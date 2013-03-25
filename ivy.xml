@@ -4,14 +4,19 @@
   <dependencies>
     
     <dependency org="org.apache.hadoop" name="hadoop-core" rev="1.0.4"/>
-               
-    <dependency org="org.apache.jena" name="jena-tdb" rev="0.10.0"/>
-            
-    
+
+    <dependency org="org.apache.jena" name="jena-tdb" rev="0.10.0">
+      <exclude org="org.slf4j" name="slf4j-log4j12"/>
+      <exclude org="org.slf4j" name="jcl-over-slf4j"/>
+    </dependency>
+
     <dependency org="org.openrdf.sesame" name="sesame-runtime" rev="2.7.0-beta2"/>
     
-    <dependency org="org.apache.solr" name="solr-solrj" rev="4.1.0"/>
-    
+    <dependency org="org.apache.solr" name="solr-solrj" rev="4.1.0">
+      <exclude org="org.slf4j" name="jcl-over-slf4j"/>
+    </dependency>
+               
+                  
     <dependency org="org.apache.httpcomponents" name="httpmime" rev="4.2.2"/>       
     <dependency org="org.jsoup" name="jsoup" rev="1.7.2"/>
     <dependency org="com.google.guava" name="guava" rev="14.0"/>
