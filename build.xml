@@ -85,7 +85,9 @@
   	    <path refid="checkedin.classpath"/>
 		<path refid="ivy.classpath" />
   	</path>  	  	  	  	
-    <javac srcdir="src" destdir="${classes.dir}" classpathref="compile.classpath" includeantruntime="false"/>      
+    <javac srcdir="src" destdir="${classes.dir}" 
+           classpathref="compile.classpath" includeantruntime="false"
+           compiler="javac1.7"/>      
   </target>
 
   <!-- ====================
@@ -140,8 +142,9 @@
        ======================== -->
   <target name="unitTests" depends="compileTests" description="--> run unit tests">
 
-    <path id="testResources.classpath">
+    <path id="test.classpath">
     	<pathelement location="test"/>
+        <pathelement location="bin"/>
     </path>
 
     <junit printsummary="yes" haltonfailure="yes" fork="yes">
@@ -149,11 +152,11 @@
       <classpath>
         <path refid="checkedin.classpath"/>
         <path refid="ivy.classpath" />
-        <path refid="testResources.classpath"/>
+        <path refid="test.classpath"/>
       </classpath> 
       <batchtest fork="yes" >
         <fileset dir="test">
-          <include name="**/*Test*.java"/>
+          <include name="**/*Test.java"/>
         </fileset>
       </batchtest>
     </junit>
@@ -175,6 +178,17 @@
     <ivy:cleancache />
   </target>
 
+
+  <!-- ================================= 
+       target: ivy dependency report
+       ================================= -->
+  <target name="report-deps" 
+          description="--> report of ivy dependencies">
+    <mkdir dir="report" />
+    <ivy:resolve type="${ivy.resolve.types}"/>
+    <ivy:report todir="report" />
+  </target>
+  
 </project>
 
 

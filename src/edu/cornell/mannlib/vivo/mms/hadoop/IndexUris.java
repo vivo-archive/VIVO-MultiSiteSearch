@@ -14,11 +14,10 @@ import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.common.SolrInputDocument;
 
 import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 
-import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
-import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataGetter;
-import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpander;
-import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataExpanderImpl;
+import edu.cornell.mannlib.vivo.mms.linkedData.ExpandingLinkedDataService;
+import edu.cornell.mannlib.vivo.mms.linkedData.HttpLinkedDataService;
 import edu.cornell.mannlib.vivo.mms.linkedData.UrisToExpand;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMaker;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMakerImpl;
@@ -39,7 +38,7 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
 
 	DocumentMaker docMaker;	
 	SolrServer solrServer;
-	LinkedDataExpander dataSource;
+	ExpandingLinkedDataService dataSource;
 	
 	@Override
     protected void setup(Context context) throws IOException,
@@ -52,8 +51,8 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
     protected void setupLinkedDataSource(
             org.apache.hadoop.mapreduce.Mapper.Context context) {
         dataSource = 
-                new LinkedDataExpanderImpl(
-                        new LinkedDataGetter(new DefaultHttpClient()),
+                new ExpandingLinkedDataService(
+                        new HttpLinkedDataService(new DefaultHttpClient()),
                         new UrisToExpand(
             UrisToExpand.getVivoTwoHopPredicates(), 
             UrisToExpand.getDefaultSkippedPredicates(), 
@@ -76,11 +75,11 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
 			throws IOException, InterruptedException {
 
         String uri = value.toString();
-        RDFService data = null;
+        Model data = null;
         SolrInputDocument doc = null;
 
         try {
-            data = getLinkedData(uri, context);
+            data = getLinkedData(uri);
         } catch (Throwable ex) {
             log.error(ex, ex);
             context.write(value,
@@ -113,13 +112,15 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
         solrServer.add(doc);
     }
 
-    protected SolrInputDocument makeDocument(String uri, RDFService data) {
+    protected SolrInputDocument makeDocument(String uri, Model data) {
         return docMaker.makeDocument(uri, data);
     }
 
-    protected RDFService getLinkedData(String uri,
-            org.apache.hadoop.mapreduce.Mapper.Context context) throws Exception {
-        return dataSource.getData( uri, context.getConfiguration() );
+    protected Model getLinkedData(String uri
+           ) throws Exception {
+    	Model m = ModelFactory.createDefaultModel();
+    	dataSource.getLinkedData( uri, m);
+        return m; 
     }
 
 	

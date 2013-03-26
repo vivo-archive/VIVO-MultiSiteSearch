@@ -8,45 +8,41 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.conf.Configuration;
 
 import com.hp.hpl.jena.rdf.model.Model;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-
-import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
-import edu.cornell.mannlib.vitro.webapp.rdfservice.impl.jena.model.RDFServiceModel;
 
 /**
- LinkedDataSource implementation that uses HTTPClient and
- an in memory jena Model for the RDF.
- * @version
+ * LinkedDataService that requests RDF for the initial URI
+ * and will request additional RDF if directed to by the 
+ * implementation of UrisToExpand.
+ *
  */
-public class LinkedDataExpanderImpl implements LinkedDataExpander {
-    private LinkedDataGetter ldGetter;
-    private UrisToExpand uriExpander;
+public class ExpandingLinkedDataService implements LinkedDataService {
+    private LinkedDataService innerLDService;
+    private UrisToExpand urisToExpand;
 
-    public LinkedDataExpanderImpl(LinkedDataGetter ldg,
-            UrisToExpand urisForDataExpansion) {
-        this.ldGetter = ldg;
-        this.uriExpander = urisForDataExpansion;
+    public ExpandingLinkedDataService(
+            LinkedDataService innerLDService,
+            UrisToExpand urisToExpand) {
+        this.innerLDService = innerLDService;
+        this.urisToExpand = urisToExpand;
     }
-
+       
     @Override
-    public RDFService getData(String uri, Configuration configuration) throws Exception{
-        //get the RDF for the URI
-        Model model = ModelFactory.createDefaultModel();
-        ldGetter.getLinkedData(uri,model);
+    public void getLinkedData(String uri, Model model) throws Exception {
+        if( model == null )
+            throw new Error("Model should never be null");
+                
+        innerLDService.getLinkedData(uri,model);
 
         //find URIs that need additional data
         //uriExpander.
-        //find URIs that need additional data one level deeper
-        //return RDFService
-        return new RDFServiceModel( model );
+        //find URIs that need additional data one level deeper        
     }
 
     public void expandData(String uri, Model model) throws Exception {
         //get list of additional URIs to get linked data for
-        Map<String, List<String>> map = uriExpander.getUris( uri, model);
+        Map<String, List<String>> map = urisToExpand.getUris( uri, model);
         List<String> oneHop = map.get("oneHop");
         List<String> twoHop = map.get("twoHop");
 
@@ -71,7 +67,7 @@ public class LinkedDataExpanderImpl implements LinkedDataExpander {
             uriSet.addAll(uris);
         }
         for (String uri : uriSet) {
-            ldGetter.getLinkedData(uri, model);
+            innerLDService.getLinkedData(uri, model);
         }
     }
 
@@ -87,7 +83,7 @@ public class LinkedDataExpanderImpl implements LinkedDataExpander {
     }
 
     public List<String> getUrisFor2ndExpand(Model model, String uri2ndHop) {
-        return uriExpander.getSingleHopUris( uri2ndHop, model);
+        return urisToExpand.getSingleHopUris( uri2ndHop, model);
     }
 
     public boolean innerSkipUri(String uri) {
@@ -110,6 +106,8 @@ public class LinkedDataExpanderImpl implements LinkedDataExpander {
         return (uri.substring(7).contains("//"));
     }
 
-    Log logger = LogFactory.getLog(LinkedDataExpanderImpl.class);
+    Log logger = LogFactory.getLog(ExpandingLinkedDataService.class);
+
+ 
 
 }
