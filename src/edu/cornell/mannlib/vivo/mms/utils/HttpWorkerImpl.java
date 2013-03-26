@@ -2,12 +2,16 @@
 
 package edu.cornell.mannlib.vivo.mms.utils;
 
-import org.apache.commons.httpclient.Header;
+import java.util.Arrays;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
+
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import edu.cornell.mannlib.vivo.mms.utils.XmlUtils.XmlUtilsException;
 
@@ -17,39 +21,50 @@ import edu.cornell.mannlib.vivo.mms.utils.XmlUtils.XmlUtilsException;
 public class HttpWorkerImpl implements HttpWorker {
 	private static final Log log = LogFactory.getLog(HttpWorkerImpl.class);
 
-	/**
-	 * Don't forget to URLEncode the parameter keys and values.
-	 * 
-	 * @throws XmlUtilsException
-	 * 
-	 * @see edu.cornell.mannlib.vivo.mms.utils.HttpWorker#getRdfXml(java.lang.String,
-	 *      edu.cornell.mannlib.vivo.mms.utils.HttpWorker.Parameter[])
-	 */
 	@Override
-	public Document getRdfXml(String url, Parameter... parameters)
+	public String getRdfString(String url, Parameter... parameters)
 			throws HttpWorkerException {
+		log.debug("Request is: '" + url + "' " + Arrays.asList(parameters));
 		HttpClient httpClient = new HttpClient();
 
 		PostMethod method = new PostMethod(url);
-		
+
 		for (Parameter p : parameters) {
 			method.addParameter(p.name, p.value);
 		}
-		
-		method.addRequestHeader(new Header("accept", "application/rdf+xml"));
-		
+
+		// method.addRequestHeader(new Header("accept", "application/rdf+xml"));
+
 		try {
 			log.debug("About to get RDF/XML");
 			int statusCode = httpClient.executeMethod(method);
 			log.debug("HTTP status was " + statusCode);
 
-			String rdf = method.getResponseBodyAsString(100_000_000);
-
-			return XmlUtils.parseXml(rdf);
+			String response = method.getResponseBodyAsString(100_000_000);
+			return response;
 		} catch (Exception e) {
 			throw new HttpWorkerException(e);
 		} finally {
 			method.releaseConnection();
 		}
 	}
+
+	@Override
+	public Document getRdfXml(String url, Parameter... parameters)
+			throws HttpWorkerException {
+		try {
+			return XmlUtils.parseXml(getRdfString(url, parameters));
+		} catch (XmlUtilsException e) {
+			throw new HttpWorkerException(e);
+		}
+	}
+
+	@Override
+	public Model getRdfModel(String url, Parameter... parameters)
+			throws HttpWorkerException {
+		Model model = ModelFactory.createDefaultModel();
+		model.read(getRdfString(url, parameters));
+		return model;
+	}
+
 }

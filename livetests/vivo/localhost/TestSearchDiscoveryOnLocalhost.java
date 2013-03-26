@@ -7,7 +7,7 @@ import java.util.List;
 import org.apache.log4j.Level;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
-import edu.cornell.mannlib.vivo.mms.discovery.smallvivosite.DiscoverUrisUsingListrdf;
+import edu.cornell.mannlib.vivo.mms.discovery.largevivosite.DiscoverUrisUsingSearchPages;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorkerImpl;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
@@ -20,14 +20,14 @@ import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
  * 
  * Run outside of Hadoop.
  */
-public class TestDiscoveryOnLocalhost {
+public class TestSearchDiscoveryOnLocalhost {
 	public static void main(String[] args) {
 		Log4JHelper.resetToConsole();
 		Log4JHelper.setLoggingLevel(Level.WARN);
 		Log4JHelper.setLoggingLevel("edu.cornell", Level.DEBUG);
 
 		try {
-			Iterable<String> uris = new DiscoverUrisUsingListrdf()
+			Iterable<String> uris = new DiscoverUrisUsingSearchPages()
 					.getUrisForSite("http://localhost:8080/vivo",
 							new DiscoverUrisContextForLocalhost());
 			for (String uri : uris) {

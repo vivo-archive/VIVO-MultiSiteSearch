@@ -16,6 +16,8 @@ import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.hp.hpl.jena.rdf.model.Model;
+
 import edu.cornell.mannlib.vivo.mms.AbstractTestClass;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
@@ -24,12 +26,17 @@ import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
  * TODO
  */
 public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
-	private static final Document HARDCODED_RDF = parseXml("<rdf:RDF\n"
+	/**
+	 * 
+	 */
+	private static final String HARDCODED_RDF = "<rdf:RDF\n"
 			+ "    xmlns:rdf=\"http://www.w3.org/1999/02/22-rdf-syntax-ns#\"\n"
 			+ "    xmlns:j.0=\"http://xmlns.com/foaf/0.1/\" > \n"
 			+ "  <rdf:Description rdf:about=\"http://vivo.mydomain.edu/individual/n5638\">\n"
 			+ "    <rdf:type rdf:resource=\"http://xmlns.com/foaf/0.1/Person\"/>\n"
-			+ "  </rdf:Description>\n" + "</rdf:RDF>\n");
+			+ "  </rdf:Description>\n" + "</rdf:RDF>\n";
+
+	private static final Document HARDCODED_RDF_DOC = parseXml(HARDCODED_RDF);
 
 	private DiscoverUrisUsingListrdf urlFinder;
 	private DiscoverUrisContext duContext;
@@ -58,7 +65,19 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 					@Override
 					public Document getRdfXml(String url,
 							Parameter... parameters) {
+						return HARDCODED_RDF_DOC;
+					}
+
+					@Override
+					public String getRdfString(String url,
+							Parameter... parameters) throws HttpWorkerException {
 						return HARDCODED_RDF;
+					}
+
+					@Override
+					public Model getRdfModel(String url,
+							Parameter... parameters) throws HttpWorkerException {
+						throw new UnsupportedOperationException("HttpWorker.getRdfModel() not implemented.");
 					}
 
 				};

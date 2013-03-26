@@ -19,7 +19,7 @@ import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
 /**
  * Test against Tim's fully-populated mirror of VIVO Cornell
  */
-public class TestDiscoveryOnTimsMachine {
+public class TestListrdfOnTimsMachine {
 	public static void main(String[] args) {
 		Log4JHelper.resetToConsole();
 		Log4JHelper.setLoggingLevel(Level.WARN);

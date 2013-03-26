@@ -4,6 +4,8 @@ package edu.cornell.mannlib.vivo.mms.utils;
 
 import org.w3c.dom.Document;
 
+import com.hp.hpl.jena.rdf.model.Model;
+
 /**
  * TODO
  */
@@ -20,6 +22,11 @@ public interface HttpWorker {
 			this.value = value;
 		}
 
+		public Parameter(String name, Object value) {
+			this.name = name;
+			this.value = String.valueOf(value);
+		}
+
 		@Override
 		public String toString() {
 			return "Parameter[" + name + "=" + value + "]";
@@ -27,9 +34,21 @@ public interface HttpWorker {
 	}
 
 	/**
+	 * Issue a request for RDF/XML and parse the result as a String.
+	 */
+	String getRdfString(String url, Parameter... parameters)
+			throws HttpWorkerException;
+
+	/**
 	 * Issue a request for RDF/XML and parse the result as an XML document.
 	 */
 	Document getRdfXml(String url, Parameter... parameters)
+			throws HttpWorkerException;
+
+	/**
+	 * Issue a request for RDF/XML and parse the result as a Jena Model.
+	 */
+	Model getRdfModel(String url, Parameter... parameters)
 			throws HttpWorkerException;
 
 	/**

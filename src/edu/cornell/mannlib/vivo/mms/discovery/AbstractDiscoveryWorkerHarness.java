@@ -6,13 +6,20 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.google.common.collect.Iterables;
+
+import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.HttpWorkerException;
 
 /**
  * The framework for an implementation of DiscoverUrisForSite.
  */
 public abstract class AbstractDiscoveryWorkerHarness implements
 		DiscoverUrisForSite {
+	private static final Log log = LogFactory
+			.getLog(AbstractDiscoveryWorkerHarness.class);
 
 	/**
 	 * Discover individual URIs at this site for each classURI in the discovery
@@ -25,7 +32,13 @@ public abstract class AbstractDiscoveryWorkerHarness implements
 
 		Collection<String> classUris = duContext.getClassUris(siteUrl);
 		for (String classUri : classUris) {
-			iterables.add(getWorker(siteUrl, classUri, duContext).discover());
+			try {
+				iterables.add(getWorker(siteUrl, classUri, duContext)
+						.discover());
+			} catch (HttpWorkerException e) {
+				log.error("Failed to discover individuals for class '"
+						+ classUri + "' at '" + siteUrl + "'", e);
+			}
 		}
 
 		return Iterables.concat(iterables);
@@ -53,7 +66,7 @@ public abstract class AbstractDiscoveryWorkerHarness implements
 			this.duContext = duContext;
 		}
 
-		public abstract Iterable<String> discover();
+		public abstract Iterable<String> discover() throws HttpWorkerException;
 	}
 
 }
