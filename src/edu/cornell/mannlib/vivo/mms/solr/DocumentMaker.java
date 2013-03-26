@@ -7,5 +7,5 @@ import com.hp.hpl.jena.rdf.model.Model;
 import edu.cornell.mannlib.vitro.webapp.rdfservice.RDFService;
 
 public interface DocumentMaker {
-    SolrInputDocument makeDocument( String uri, RDFService data);
+    SolrInputDocument makeDocument( String uri, Model data);
 }
