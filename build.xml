@@ -4,8 +4,7 @@
     xmlns:static="antlib:com.unicorntoast.ant.ivy.static_classpath"
     xmlns:export="antlib:com.unicorntoast.ant.ivy.export"
     xmlns:ivy="antlib:org.apache.ivy.ant"
-    default="help"
-    >
+    default="help" >
 
   <property name="build.dir" value="build" />
   <property name="src.dir" value="src" />
