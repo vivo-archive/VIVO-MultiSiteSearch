@@ -13,7 +13,7 @@ import edu.cornell.mannlib.vivo.mms.solr.DocumentMakerImpl;
  * specialization of the IndexUris class for Vivo sites.
  *  
  */
-class VivoIndexUris extends IndexUris{
+class VivoIndexUris extends BaseIndexUris{
 
     @Override
     protected void setupLinkedDataSource(

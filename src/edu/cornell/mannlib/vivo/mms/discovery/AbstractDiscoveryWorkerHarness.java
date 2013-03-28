@@ -6,11 +6,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.google.common.collect.Iterables;
 
+import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.HttpWorkerException;
 
 /**
@@ -26,14 +28,13 @@ public abstract class AbstractDiscoveryWorkerHarness implements
 	 * context.
 	 */
 	@Override
-	public final Iterable<String> getUrisForSite(String siteUrl,
-			DiscoverUrisContext duContext) {
+	public final Iterable<String> getUrisForSite(String siteUrl) {
 		List<Iterable<String>> iterables = new ArrayList<Iterable<String>>();
 
 		Collection<String> classUris = duContext.getClassUris(siteUrl);
 		for (String classUri : classUris) {
 			try {
-				iterables.add(getWorker(siteUrl, classUri, duContext)
+				iterables.add(getWorker(siteUrl, classUri, http)
 						.discover());
 			} catch (HttpWorkerException e) {
 				log.error("Failed to discover individuals for class '"
@@ -48,22 +49,24 @@ public abstract class AbstractDiscoveryWorkerHarness implements
 	 * Get a worker that will obtain the individual URIs for this class at this
 	 * site.
 	 */
-	protected abstract DiscoveryWorker getWorker(String siteUrl,
-			String classUri, DiscoverUrisContext duContext);
+	public abstract DiscoveryWorker getWorker(String siteUrl,
+			String classUri, HttpWorker http);
 
+	
 	/**
 	 * The worker looks like this.
 	 */
 	public static abstract class DiscoveryWorker {
 		protected final String siteUrl;
 		protected final String classUri;
-		protected final DiscoverUrisContext duContext;
+        protected final HttpWorker http;
 
 		public DiscoveryWorker(String siteUrl, String classUri,
-				DiscoverUrisContext duContext) {
+				HttpWorker http) {
 			this.siteUrl = siteUrl;
 			this.classUri = classUri;
-			this.duContext = duContext;
+			this.http = http;
+                
 		}
 
 		public abstract Iterable<String> discover() throws HttpWorkerException;

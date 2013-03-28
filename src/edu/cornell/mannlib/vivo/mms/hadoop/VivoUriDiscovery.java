@@ -2,17 +2,13 @@ package edu.cornell.mannlib.vivo.mms.hadoop;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Mapper;
 import org.w3c.dom.Document;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
 import edu.cornell.mannlib.vivo.mms.utils.HadoopContextHelper;
-import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
 
 /**
  * Get all the URIs for a given site.
@@ -25,7 +21,7 @@ import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
  * individual from that site. ex. [ "http://vivo.cornell.edu" :
  * "http://vivo.cornell.edu/indiviudal134" ... ]
  */
-public class VivoUriDiscovery extends UriDiscovery {
+public class VivoUriDiscovery extends BaseUriDiscovery {
 
 	private DiscoverUrisForSite uriSource;
 	private Document siteConfigDoc;

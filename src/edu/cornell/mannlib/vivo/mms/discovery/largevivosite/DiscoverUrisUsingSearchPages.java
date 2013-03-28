@@ -13,7 +13,6 @@ import org.w3c.dom.Node;
 import com.google.common.collect.Iterables;
 
 import edu.cornell.mannlib.vivo.mms.discovery.AbstractDiscoveryWorkerHarness;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.HttpWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.Parameter;
@@ -27,13 +26,14 @@ public class DiscoverUrisUsingSearchPages extends
 		AbstractDiscoveryWorkerHarness {
 	private static final Log log = LogFactory
 			.getLog(DiscoverUrisUsingSearchPages.class);
-
+	
 	private static final int HITS_PER_PAGE = 10000;
 
+	
 	@Override
-	protected DiscoveryWorker getWorker(String siteUrl, String classUri,
-			DiscoverUrisContext duContext) {
-		return new Worker(siteUrl, classUri, duContext);
+	public DiscoveryWorker getWorker(String siteUrl, String classUri,
+			HttpWorker http) {
+		return new Worker(siteUrl, classUri, http);
 	}
 
 	private static class Worker extends DiscoveryWorker {
@@ -42,8 +42,8 @@ public class DiscoverUrisUsingSearchPages extends
 		private boolean done;
 
 		public Worker(String siteUrl, String classUri,
-				DiscoverUrisContext duContext) {
-			super(siteUrl, classUri, duContext);
+				HttpWorker http) {
+			super(siteUrl, classUri, http);
 		}
 
 		@Override
@@ -60,7 +60,6 @@ public class DiscoverUrisUsingSearchPages extends
 		 * done.
 		 */
 		private void fetchAndParsePage() throws HttpWorkerException {
-			HttpWorker http = duContext.getHttpWorker();
 			Document resultDoc = http.getRdfXml(siteUrl + "/search",
 					new Parameter("querytext", "type:" + classUri),
 					new Parameter("startIndex", nextPageStart), new Parameter(

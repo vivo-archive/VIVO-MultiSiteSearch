@@ -5,14 +5,13 @@ package edu.cornell.mannlib.vivo.mms.discovery.smallvivosite;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import edu.cornell.mannlib.vivo.mms.discovery.AbstractDiscoveryWorkerHarness;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.HttpWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.Parameter;
 import edu.cornell.mannlib.vivo.mms.utils.XPathHelper;
@@ -31,14 +30,14 @@ public class DiscoverUrisUsingListrdf extends AbstractDiscoveryWorkerHarness {
 
 	@Override
 	protected DiscoveryWorker getWorker(String siteUrl, String classUri,
-			DiscoverUrisContext duContext) {
-		return new Worker(siteUrl, classUri, duContext);
+			HttpClient http) {
+		return new Worker(siteUrl, classUri, http);
 	}
 
 	private static class Worker extends DiscoveryWorker {
 		public Worker(String siteUrl, String classUri,
-				DiscoverUrisContext duContext) {
-			super(siteUrl, classUri, duContext);
+				HttpClient http) {
+			super(siteUrl, classUri, http);
 		}
 
 		/**
@@ -62,7 +61,6 @@ public class DiscoverUrisUsingListrdf extends AbstractDiscoveryWorkerHarness {
 		}
 
 		private Document getRdf() throws HttpWorkerException {
-			HttpWorker http = duContext.getHttpWorker();
 			Document uriList = http.getRdfXml(siteUrl + "/listrdf",
 					new Parameter("vclass", classUri));
 			return uriList;
