@@ -25,21 +25,19 @@ import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
  * individual from that site. ex. [ "http://vivo.cornell.edu" :
  * "http://vivo.cornell.edu/indiviudal134" ... ]
  */
-public class UriDiscovery extends Mapper<LongWritable, Text, Text, Text> {
+public abstract class BaseUriDiscovery extends Mapper<LongWritable, Text, Text, Text> {
 	Log log = LogFactory.getLog(UriDiscovery.class);
 
 	private DiscoverUrisForSite uriSource;
-	private Document siteConfigDoc;
+
+    protected abstract DiscoverUrisForSite getDiscoverUrisForSite( Context context );
 
 	@Override
 	protected void setup(Context context) throws IOException,
 			InterruptedException {
 		Log4JHelper.addConfigfile("log4j.job.properties");
 		super.setup(context);
-		this.uriSource = HadoopContextHelper.instantiateFromProperty(context,
-				BuildIndexUtils.discoveryImpl, DiscoverUrisForSite.class);
-		this.siteConfigDoc = HadoopContextHelper.parseXmlFileAtProperty(context,
-				BuildIndexUtils.siteConfigLocation);
+		this.uriSource = getDiscoverUrisForSite(context);            
 	}
 
 	@Override
@@ -59,4 +57,11 @@ public class UriDiscovery extends Mapper<LongWritable, Text, Text, Text> {
 			context.write(urlOfSite, new Text(uri));
 		}
 	}
+
+
+    public static DiscoverUrisForSite setupDiscoverUrisForSite(
+        String siteUrl, HttpClient httpClient, List<String>classUris){
+
+    }
+                                                               
 }
