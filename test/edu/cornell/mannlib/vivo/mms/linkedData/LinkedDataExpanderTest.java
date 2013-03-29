@@ -23,7 +23,7 @@ public class LinkedDataExpanderTest {
         assertTrue("The testing model created from bdc34.n3 should have "+
                    "some statements" , m.size() > 0 );
         
-        LinkedDataService innerLDService = new ModelLikedDataService( m );
+        LinkedDataService innerLDService = new ModelLinkedDataService( m );
         LinkedDataService testService = new ExpandingLinkedDataService( innerLDService, new UrisToExpand() );
         
     }
