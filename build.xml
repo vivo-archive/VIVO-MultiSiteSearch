@@ -147,7 +147,7 @@
         <pathelement location="bin"/>
     </path>
 
-    <junit printsummary="yes" haltonfailure="yes" fork="yes">
+    <junit printsummary="yes" haltonfailure="no" fork="yes">
       <formatter type="plain"/>
       <classpath>
         <path refid="checkedin.classpath"/>
