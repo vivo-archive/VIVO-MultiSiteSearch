@@ -17,17 +17,26 @@ import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.HttpWorkerException;
  * The framework for an implementation of DiscoverUrisForSite.
  */
 public abstract class AbstractDiscoveryWorkerHarness implements
-		DiscoverUrisForSite {
+		ContextualizedDiscoverUrisForSite {    
 	private static final Log log = LogFactory
 			.getLog(AbstractDiscoveryWorkerHarness.class);
+	
+	private DiscoverUrisContext duContext;
+	
+	@Override
+	public void setDiscoveryUrisContext(DiscoverUrisContext duContext) {
+	    this.duContext = duContext;
+	}
 
 	/**
 	 * Discover individual URIs at this site for each classURI in the discovery
 	 * context.
 	 */
 	@Override
-	public final Iterable<String> getUrisForSite(String siteUrl,
-			DiscoverUrisContext duContext) {
+	public final Iterable<String> getUrisForSite(String siteUrl) {
+	    if( duContext == null)
+	        throw new Error( "DiscoverUrisContext must be seet with setDiscoveryUrisContext()");
+	    
 		List<Iterable<String>> iterables = new ArrayList<Iterable<String>>();
 
 		Collection<String> classUris = duContext.getClassUris(siteUrl);

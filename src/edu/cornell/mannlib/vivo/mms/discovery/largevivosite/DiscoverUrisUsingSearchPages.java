@@ -36,16 +36,26 @@ public class DiscoverUrisUsingSearchPages extends
 		return new Worker(siteUrl, classUri, duContext);
 	}
 
+	public static DiscoveryWorker getWorker(String siteUrl, String classUri, HttpWorker http){
+	    return new Worker( siteUrl, classUri, http);
+	}
+	
 	private static class Worker extends DiscoveryWorker {
 		private int nextPageStart;
 		private final List<Iterable<String>> results = new ArrayList<>();
 		private boolean done;
-
+		private HttpWorker http;
+		
 		public Worker(String siteUrl, String classUri,
 				DiscoverUrisContext duContext) {
 			super(siteUrl, classUri, duContext);
 		}
 
+		public Worker(String siteUrl, String classUri, HttpWorker http){
+		    super( siteUrl, classUri, null);
+		    this.http = http;
+		}
+		
 		@Override
 		public Iterable<String> discover() throws HttpWorkerException {
 			while (!done) {
@@ -60,8 +70,13 @@ public class DiscoverUrisUsingSearchPages extends
 		 * done.
 		 */
 		private void fetchAndParsePage() throws HttpWorkerException {
-			HttpWorker http = duContext.getHttpWorker();
-			Document resultDoc = http.getRdfXml(siteUrl + "/search",
+		    HttpWorker localHttp ;
+		    if( http == null )
+		        localHttp = duContext.getHttpWorker();
+		    else
+		        localHttp = this.http;
+		    
+			Document resultDoc = localHttp.getRdfXml(siteUrl + "/search",
 					new Parameter("querytext", "type:" + classUri),
 					new Parameter("startIndex", nextPageStart), new Parameter(
 							"hitsPerPage", HITS_PER_PAGE), new Parameter("xml",
