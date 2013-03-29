@@ -52,6 +52,11 @@ public interface HttpWorker {
 			throws HttpWorkerException;
 
 	/**
+	 * Issue a request for HTML and don't parse the result.
+	 */
+	String getHtml(String url) throws HttpWorkerException;
+
+	/**
 	 * The exception that these methods might throw.
 	 */
 	public static class HttpWorkerException extends Exception {
@@ -63,4 +68,5 @@ public interface HttpWorker {
 			super(cause);
 		}
 	}
+
 }

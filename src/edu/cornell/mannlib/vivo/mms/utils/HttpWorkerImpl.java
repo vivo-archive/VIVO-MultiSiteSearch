@@ -5,6 +5,7 @@ package edu.cornell.mannlib.vivo.mms.utils;
 import java.util.Arrays;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,6 +66,27 @@ public class HttpWorkerImpl implements HttpWorker {
 		Model model = ModelFactory.createDefaultModel();
 		model.read(getRdfString(url, parameters));
 		return model;
+	}
+
+	@Override
+	public String getHtml(String url) throws HttpWorkerException {
+		log.debug("Request is: '" + url + "'");
+		HttpClient httpClient = new HttpClient();
+
+		GetMethod method = new GetMethod(url);
+
+		try {
+			log.debug("About to get HTML");
+			int statusCode = httpClient.executeMethod(method);
+			log.debug("HTTP status was " + statusCode);
+
+			String response = method.getResponseBodyAsString(100_000_000);
+			return response;
+		} catch (Exception e) {
+			throw new HttpWorkerException(e);
+		} finally {
+			method.releaseConnection();
+		}
 	}
 
 }

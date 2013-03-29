@@ -11,8 +11,6 @@ import org.apache.commons.logging.LogFactory;
 
 import com.google.common.collect.Iterables;
 
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.HttpWorkerException;
-
 /**
  * The framework for an implementation of DiscoverUrisForSite.
  */
@@ -35,7 +33,7 @@ public abstract class AbstractDiscoveryWorkerHarness implements
 			try {
 				iterables.add(getWorker(siteUrl, classUri, duContext)
 						.discover());
-			} catch (HttpWorkerException e) {
+			} catch (DiscoveryWorkerException e) {
 				log.error("Failed to discover individuals for class '"
 						+ classUri + "' at '" + siteUrl + "'", e);
 			}
@@ -66,7 +64,23 @@ public abstract class AbstractDiscoveryWorkerHarness implements
 			this.duContext = duContext;
 		}
 
-		public abstract Iterable<String> discover() throws HttpWorkerException;
+		public abstract Iterable<String> discover() throws DiscoveryWorkerException;
+	}
+
+	public static class DiscoveryWorkerException extends Exception {
+
+		public DiscoveryWorkerException(String message, Throwable cause) {
+			super(message, cause);
+		}
+
+		public DiscoveryWorkerException(String message) {
+			super(message);
+		}
+
+		public DiscoveryWorkerException(Throwable cause) {
+			super(cause);
+		}
+
 	}
 
 }

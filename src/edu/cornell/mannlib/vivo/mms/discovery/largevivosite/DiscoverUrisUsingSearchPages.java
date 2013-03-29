@@ -47,11 +47,16 @@ public class DiscoverUrisUsingSearchPages extends
 		}
 
 		@Override
-		public Iterable<String> discover() throws HttpWorkerException {
-			while (!done) {
-				fetchAndParsePage();
+		public Iterable<String> discover() throws DiscoveryWorkerException {
+			try {
+				while (!done) {
+					fetchAndParsePage();
+				}
+				return Iterables.concat(results);
+			} catch (HttpWorkerException e) {
+				throw new DiscoveryWorkerException(
+						"Failed to fetch and parse a search page", e);
 			}
-			return Iterables.concat(results);
 		}
 
 		/**
@@ -98,10 +103,10 @@ public class DiscoverUrisUsingSearchPages extends
 					.findNodes("//str[@name='uri']", resultNode);
 
 			List<String> uris = new ArrayList<>();
-			for (Node uriNode: uriNodes) {
+			for (Node uriNode : uriNodes) {
 				uris.add(uriNode.getTextContent());
 			}
-			
+
 			results.add(uris);
 		}
 	}

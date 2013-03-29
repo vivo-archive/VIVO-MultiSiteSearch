@@ -77,7 +77,15 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 					@Override
 					public Model getRdfModel(String url,
 							Parameter... parameters) throws HttpWorkerException {
-						throw new UnsupportedOperationException("HttpWorker.getRdfModel() not implemented.");
+						throw new UnsupportedOperationException(
+								"HttpWorker.getRdfModel() not implemented.");
+					}
+
+					@Override
+					public String getHtml(String url)
+							throws HttpWorkerException {
+						throw new UnsupportedOperationException(
+								"HttpWorker.getHtml() not implemented.");
 					}
 
 				};
@@ -95,5 +103,4 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 				urlFinder.getUrisForSite("BOGUS", duContext),
 				"http://vivo.mydomain.edu/individual/n5638");
 	}
-
 }
