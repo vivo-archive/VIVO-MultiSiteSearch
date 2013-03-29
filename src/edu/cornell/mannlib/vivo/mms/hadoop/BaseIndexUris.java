@@ -33,12 +33,26 @@ import edu.cornell.mannlib.vivo.mms.solr.DocumentMakerImpl;
  *  Output: TBD. Maybe success or error for each URI?
  *  
  */
-class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
-	Log log = LogFactory.getLog(IndexUris.class);
+public abstract class BaseIndexUris  extends Mapper<LongWritable , Text, Text, Text>{
+	Log log = LogFactory.getLog(BaseIndexUris.class);
 
 	DocumentMaker docMaker;	
 	SolrServer solrServer;
 	ExpandingLinkedDataService dataSource;
+
+    /**
+     * implementations must provide a linked data source. 
+     */
+    protected abstract void setupLinkedDataSource(org.apache.hadoop.mapreduce.Mapper.Context context);
+
+    /**
+     * Implementations may override this method to prvoide a specialized Document Maker.
+     */
+    protected void setupDocMaker(
+            org.apache.hadoop.mapreduce.Mapper.Context context) {
+        docMaker = new DocumentMakerImpl();        
+    }
+
 	
 	@Override
     protected void setup(Context context) throws IOException,
@@ -46,28 +60,6 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
 	    setupDocMaker(context);
 	    setupSolrServer(context);
 	    setupLinkedDataSource(context);
-    }
-
-    protected void setupLinkedDataSource(
-            org.apache.hadoop.mapreduce.Mapper.Context context) {
-        dataSource = 
-                new ExpandingLinkedDataService(
-                        new HttpLinkedDataService(new DefaultHttpClient()),
-                        new UrisToExpand(
-            UrisToExpand.getVivoTwoHopPredicates(), 
-            UrisToExpand.getDefaultSkippedPredicates(), 
-            UrisToExpand.getDefaultSkippedResourceNS()));
-    }
-
-    protected void setupSolrServer(
-            org.apache.hadoop.mapreduce.Mapper.Context context) {
-        String solrUrl = context.getConfiguration().get(BuildIndexUtils.solrUrl);
-        solrServer = new HttpSolrServer(solrUrl);
-    }
-
-    protected void setupDocMaker(
-            org.apache.hadoop.mapreduce.Mapper.Context context) {
-        docMaker = new DocumentMakerImpl();        
     }
 
     @Override
@@ -107,6 +99,11 @@ class IndexUris  extends Mapper<LongWritable , Text, Text, Text>{
 
         context.write(value, new  Text("SUCCESS"));	    
 	}
+
+    protected void setupSolrServer(org.apache.hadoop.mapreduce.Mapper.Context context){
+        String solrUrl = context.getConfiguration().get(BuildIndexUtils.solrUrl);
+        solrServer = new HttpSolrServer(solrUrl);
+    }
 
     protected void indexToSolr(SolrInputDocument doc) throws SolrServerException, IOException {
         solrServer.add(doc);

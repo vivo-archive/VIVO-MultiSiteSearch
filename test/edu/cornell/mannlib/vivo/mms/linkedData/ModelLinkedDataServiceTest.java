@@ -49,11 +49,14 @@ public class ModelLinkedDataServiceTest{
 
         assertTrue( result );
 
-        String queryString2 = "ASK  { <"+ URI_BDC34 + "> ?p ?o }";
+        // check that there are no two hop predicates
+
+        String queryString2 = "ASK  { <"+ URI_BDC34 + "> ?p ?o . ?o ?p2 ?o2 }";
         query = QueryFactory.create(queryString2);
         qexec = QueryExecutionFactory.create(query, outputModel);
-        boolean hadSecondHopPredicates = qexec.execAsk();
+        boolean hasSecondHopPredicates = qexec.execAsk();
         qexec.close();
 
+        assertTrue( ! hasSecondHopPredicates );
     }
 }

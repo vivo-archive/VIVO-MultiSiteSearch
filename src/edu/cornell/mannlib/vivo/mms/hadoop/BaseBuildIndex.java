@@ -13,12 +13,8 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 
-public class BuildIndex  extends Configured implements Tool {
+public abstract class BaseBuildIndex extends Configured implements Tool {
 	
-	public static void main(String[] args) throws Exception {
-		int res = ToolRunner.run(new Configuration(), new BuildIndex(), args);
-		System.exit(res);
-	}
 	
 	@SuppressWarnings("unchecked")
     @Override
@@ -32,10 +28,11 @@ public class BuildIndex  extends Configured implements Tool {
 		conf.addResource(
 				new File(configXmlPath).getAbsoluteFile().toURI().toURL());
 		conf.reloadConfiguration();
-		checkConfig(conf);
 
 		String workingDir = args[1];
         conf.set(BuildIndexUtils.workingDir, workingDir);
+
+		//could have a method like checkConfig(conf);
 
 		Path discoveryInput = new Path(workingDir, "discoveryIn");
 		Path discoveryOutput = new Path(workingDir, "urisToIndex");
@@ -93,19 +90,12 @@ public class BuildIndex  extends Configured implements Tool {
 	}
 
 	@SuppressWarnings("rawtypes")
-    public Class getDiscoveryClass(){
-	    return UriDiscovery.class;
-	}
+    public abstract Class getDiscoveryClass();
+
 	
 	@SuppressWarnings("rawtypes")
-    public Class getIndexClass(){
-	    return IndexUris.class;
-	}
+    public abstract Class getIndexClass();
 	
-	private void checkConfig(Configuration conf) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	private int printUsage() {
 		System.out.println("usage: ");

@@ -42,6 +42,12 @@ public class UrisToExpand  {
     public Set<String> predicatesToSkip;
     public Set<String> resouceNsToSkip;
 
+    public UrisToExpand(){
+        this( getVivoTwoHopPredicates(),
+              getDefaultSkippedPredicates(),
+              getDefaultSkippedResourceNS());
+    }
+
     public UrisToExpand(Set<String> twoHopPredicates, 
                                 Set<String> predicatesToSkip, 
                                 Set<String> resouceNsToSkip){
