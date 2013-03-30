@@ -34,10 +34,7 @@ public class ExpandingLinkedDataService implements LinkedDataService {
             throw new Error("Model should never be null");
                 
         innerLDService.getLinkedData(uri,model);
-
-        //find URIs that need additional data
-        //uriExpander.
-        //find URIs that need additional data one level deeper        
+        expandData(uri,model);        
     }
 
     public void expandData(String uri, Model model) throws Exception {
