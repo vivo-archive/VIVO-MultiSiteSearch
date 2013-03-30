@@ -10,9 +10,9 @@ import org.apache.log4j.Level;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.discovery.vivo141site.DiscoverUrisUsingIndividualList;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorkerImpl;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
+import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 
 /**
  * Run a livetest against localhost, using hard-coded class URIS and site URL, a
@@ -55,7 +55,7 @@ public class TestSearchDiscoveryOnLocalhost14 {
 
 		@Override
 		public HttpWorker getHttpWorker() {
-			return new HttpWorkerImpl();
+			return new BasicHttpWorker();
 		}
 
 	}

@@ -47,7 +47,8 @@ public class XPathHelper {
 	 * Search for an Xpath pattern in the context of a node, returning a handy
 	 * list.
 	 */
-	public List<Node> findNodes(String pattern, Node context) {
+	public List<Node> findNodes(String pattern, Node context)
+			throws XpathHelperException {
 		try {
 			XPathExpression xpe = xpath.compile(pattern);
 			NodeList nodes = (NodeList) xpe.evaluate(context,
@@ -58,8 +59,58 @@ public class XPathHelper {
 			}
 			return list;
 		} catch (XPathExpressionException e) {
-			throw new RuntimeException(e);
+			throw new XpathHelperException("Can't parse '" + pattern
+					+ "' in this context.", e);
 		}
 	}
 
+	/**
+	 * Search for the first node in this context that matches the Xpath pattern.
+	 * If not found, return null.
+	 */
+	public Node findFirstNode(String pattern, Node context)
+			throws XpathHelperException {
+		try {
+			XPathExpression xpe = xpath.compile(pattern);
+			NodeList nodes = (NodeList) xpe.evaluate(context,
+					XPathConstants.NODESET);
+			if (nodes.getLength() == 0) {
+				return null;
+			} else {
+				return nodes.item(0);
+			}
+		} catch (XPathExpressionException e) {
+			throw new XpathHelperException("Can't parse '" + pattern
+					+ "' in this context.", e);
+		}
+	}
+
+	/**
+	 * Search for the first node in this context that matches the Xpath pattern.
+	 * If not found, throw an exception.
+	 */
+	public Node findRequiredNode(String pattern, Node context)
+			throws XpathHelperException {
+		Node result = findFirstNode(pattern, context);
+		if (result != null) {
+			return result;
+		} else {
+			throw new XpathHelperException("Can't find a node that matches '"
+					+ pattern + "' within this context.");
+		}
+	}
+
+	// ----------------------------------------------------------------------
+	// Helper classes
+	// ----------------------------------------------------------------------
+
+	public static class XpathHelperException extends Exception {
+		public XpathHelperException(String message, Throwable cause) {
+			super(message, cause);
+		}
+
+		public XpathHelperException(String message) {
+			super(message);
+		}
+	}
 }

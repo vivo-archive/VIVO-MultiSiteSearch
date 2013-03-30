@@ -2,25 +2,16 @@
 
 package edu.cornell.mannlib.vivo.mms.discovery.smallvivosite;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.Collection;
 import java.util.Collections;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import com.hp.hpl.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vivo.mms.AbstractTestClass;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorkerRequest;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 
 /**
  * TODO
@@ -36,23 +27,8 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 			+ "    <rdf:type rdf:resource=\"http://xmlns.com/foaf/0.1/Person\"/>\n"
 			+ "  </rdf:Description>\n" + "</rdf:RDF>\n";
 
-	private static final Document HARDCODED_RDF_DOC = parseXml(HARDCODED_RDF);
-
 	private DiscoverUrisUsingListrdf urlFinder;
 	private DiscoverUrisContext duContext;
-
-	private static Document parseXml(String xml) {
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
-			factory.setNamespaceAware(true); // never forget this!
-			DocumentBuilder docBuilder = factory.newDocumentBuilder();
-			return docBuilder.parse(new InputSource(new StringReader(xml)));
-		} catch (ParserConfigurationException | SAXException | IOException e) {
-			throw new RuntimeException(
-					"Failed to parse a constant XML string:", e);
-		}
-	}
 
 	@Test
 	public void parseHardcodedResult() {
@@ -60,35 +36,7 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 
 			@Override
 			public HttpWorker getHttpWorker() {
-				return new HttpWorker() {
-
-					@Override
-					public Document getRdfXml(String url,
-							Parameter... parameters) {
-						return HARDCODED_RDF_DOC;
-					}
-
-					@Override
-					public String getRdfString(String url,
-							Parameter... parameters) throws HttpWorkerException {
-						return HARDCODED_RDF;
-					}
-
-					@Override
-					public Model getRdfModel(String url,
-							Parameter... parameters) throws HttpWorkerException {
-						throw new UnsupportedOperationException(
-								"HttpWorker.getRdfModel() not implemented.");
-					}
-
-					@Override
-					public String getHtml(String url)
-							throws HttpWorkerException {
-						throw new UnsupportedOperationException(
-								"HttpWorker.getHtml() not implemented.");
-					}
-
-				};
+				return new DummyHttpWorker(HARDCODED_RDF);
 			}
 
 			@Override
@@ -100,7 +48,21 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 		urlFinder = new DiscoverUrisUsingListrdf();
 
 		assertUnorderedActualIterable("URIs",
-				urlFinder.getUrisForSite("BOGUS", duContext),
+				urlFinder.getUrisForSite("http://BOGUS", duContext),
 				"http://vivo.mydomain.edu/individual/n5638");
+	}
+
+	private static class DummyHttpWorker extends BasicHttpWorker {
+		private final String responseString;
+
+		public DummyHttpWorker(String responseString) {
+			this.responseString = responseString;
+		}
+
+		@Override
+		protected String executeRequest(BasicHttpWorkerRequest<?> request)
+				throws HttpWorkerException {
+			return responseString;
+		}
 	}
 }

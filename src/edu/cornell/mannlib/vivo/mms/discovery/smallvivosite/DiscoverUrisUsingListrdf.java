@@ -12,10 +12,9 @@ import org.w3c.dom.Node;
 
 import edu.cornell.mannlib.vivo.mms.discovery.AbstractDiscoveryWorkerHarness;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.HttpWorkerException;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker.Parameter;
 import edu.cornell.mannlib.vivo.mms.utils.XPathHelper;
+import edu.cornell.mannlib.vivo.mms.utils.XPathHelper.XpathHelperException;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker.HttpWorkerException;
 
 /**
  * Do the discovery using [vivo]/listrdf.
@@ -47,28 +46,24 @@ public class DiscoverUrisUsingListrdf extends AbstractDiscoveryWorkerHarness {
 		@Override
 		public Iterable<String> discover() {
 			try {
-				Document uriList = getRdf();
+				Document uriList = duContext.getHttpWorker()
+						.post(siteUrl + "/listrdf")
+						.parameter("vclass", classUri).asXML().execute();
 				Set<String> uris = parseUriList(uriList);
 				if (uris.size() >= 30000) {
 					log.error("Site '" + siteUrl + "' maxed out on 30,000 "
 							+ "individual URIs for class '" + classUri + "'");
 				}
 				return uris;
-			} catch (HttpWorkerException e) {
+			} catch (HttpWorkerException | XpathHelperException e) {
 				throw new Error(
 						"Can't continue. Failed to read the URLs for class '"
 								+ classUri + "' at site '" + siteUrl + "'", e);
 			}
 		}
 
-		private Document getRdf() throws HttpWorkerException {
-			HttpWorker http = duContext.getHttpWorker();
-			Document uriList = http.getRdfXml(siteUrl + "/listrdf",
-					new Parameter("vclass", classUri));
-			return uriList;
-		}
-
-		private Set<String> parseUriList(Document uriListDoc) {
+		private Set<String> parseUriList(Document uriListDoc)
+				throws XpathHelperException {
 			Set<String> uris = new HashSet<String>();
 
 			XPathHelper xp = XPathHelper.getHelper(XPathHelper.RDF_PREFIX);
@@ -76,10 +71,7 @@ public class DiscoverUrisUsingListrdf extends AbstractDiscoveryWorkerHarness {
 			for (Node node : xp.findNodes(XPATH_TO_INDIVIDUAL_URI, rootNode)) {
 				uris.add(node.getNodeValue());
 			}
-
 			return uris;
 		}
-
 	}
-
 }

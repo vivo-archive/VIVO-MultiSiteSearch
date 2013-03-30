@@ -9,10 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
 import edu.cornell.mannlib.vivo.mms.utils.XPathHelper;
+import edu.cornell.mannlib.vivo.mms.utils.XPathHelper.XpathHelperException;
 
 /**
  * Configuration info for all client sites. Looks like this, in XML:
@@ -48,15 +50,21 @@ public class SiteConfig {
 					+ contextNode.getNodeName() + ">.");
 		}
 
-		for (Node siteNode : xp.findNodes("//site", contextNode)) {
-			Site s = new Site(siteNode);
-			String siteUrl = s.getSiteUrl();
-			if (sites.containsKey(siteUrl)) {
-				throw new SiteConfigException("found a duplicate siteUrl: '"
-						+ siteUrl + "'");
+		try {
+			for (Node siteNode : xp.findNodes("//site", contextNode)) {
+				Site s = new Site(siteNode);
+				String siteUrl = s.getSiteUrl();
+				if (sites.containsKey(siteUrl)) {
+					throw new SiteConfigException(
+							"found a duplicate siteUrl: '" + siteUrl + "'");
+				}
+				sites.put(siteUrl, s);
 			}
-			sites.put(siteUrl, s);
+		} catch (XpathHelperException e) {
+			throw new SiteConfigException("Failed to parse the XML file "
+					+ "for '//site' pattern", e);
 		}
+
 		this.siteMap = Collections.unmodifiableMap(sites);
 
 		if (this.siteMap.isEmpty()) {
@@ -85,30 +93,35 @@ public class SiteConfig {
 		private final List<String> classUris;
 
 		public Site(Node siteNode) throws SiteConfigException {
-			XPathHelper xp = XPathHelper.getHelper();
+			try {
+				XPathHelper xp = XPathHelper.getHelper();
 
-			List<Node> siteUrls = xp.findNodes("@url", siteNode);
-			if (siteUrls.isEmpty()) {
-				throw new SiteConfigException(
-						"found a site with no 'url' attribute.");
-			} else {
-				this.siteUrl = siteUrls.get(0).getNodeValue();
-			}
-
-			List<String> uris = new ArrayList<>();
-			for (Node classUriNode : xp.findNodes("classUri", siteNode)) {
-				String classUri = classUriNode.getTextContent();
-				if (uris.contains(classUri)) {
-					throw new SiteConfigException("site '" + siteUrl
-							+ "' contains duplicate class URIs for '"
-							+ classUri + "'");
+				List<Node> siteUrls = xp.findNodes("@url", siteNode);
+				if (siteUrls.isEmpty()) {
+					throw new SiteConfigException(
+							"found a site with no 'url' attribute.");
+				} else {
+					this.siteUrl = siteUrls.get(0).getNodeValue();
 				}
-				uris.add(classUri);
-			}
-			this.classUris = Collections.unmodifiableList(uris);
-			if (classUris.isEmpty()) {
-				throw new SiteConfigException("site '" + this.siteUrl
-						+ "' has no class URIs.");
+
+				List<String> uris = new ArrayList<>();
+				for (Node classUriNode : xp.findNodes("classUri", siteNode)) {
+					String classUri = classUriNode.getTextContent();
+					if (uris.contains(classUri)) {
+						throw new SiteConfigException("site '" + siteUrl
+								+ "' contains duplicate class URIs for '"
+								+ classUri + "'");
+					}
+					uris.add(classUri);
+				}
+				this.classUris = Collections.unmodifiableList(uris);
+				if (classUris.isEmpty()) {
+					throw new SiteConfigException("site '" + this.siteUrl
+							+ "' has no class URIs.");
+				}
+			} catch (DOMException | XpathHelperException e) {
+				throw new SiteConfigException("Failed to parse the XML file.",
+						e);
 			}
 		}
 

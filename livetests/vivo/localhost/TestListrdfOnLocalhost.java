@@ -8,9 +8,9 @@ import org.apache.log4j.Level;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.discovery.smallvivosite.DiscoverUrisUsingListrdf;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorkerImpl;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
+import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
@@ -41,8 +41,9 @@ public class TestListrdfOnLocalhost {
 			e.printStackTrace();
 		}
 	}
-	
-	private static class DiscoverUrisContextForLocalhost extends DiscoverUrisContext {
+
+	private static class DiscoverUrisContextForLocalhost extends
+			DiscoverUrisContext {
 
 		@Override
 		public Collection<String> getClassUris(String siteUrl) {
@@ -54,7 +55,7 @@ public class TestListrdfOnLocalhost {
 
 		@Override
 		public HttpWorker getHttpWorker() {
-			return new HttpWorkerImpl();
+			return new BasicHttpWorker();
 		}
 
 	}

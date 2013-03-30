@@ -12,9 +12,9 @@ import com.google.common.collect.Iterables;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.discovery.smallvivosite.DiscoverUrisUsingListrdf;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorkerImpl;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
+import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 
 /**
  * Test against Tim's fully-populated mirror of VIVO Cornell
@@ -58,7 +58,7 @@ public class TestListrdfOnTimsMachine {
 
 		@Override
 		public HttpWorker getHttpWorker() {
-			return new HttpWorkerImpl();
+			return new BasicHttpWorker();
 		}
 
 	}

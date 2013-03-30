@@ -13,7 +13,7 @@ import org.w3c.dom.Document;
 import edu.cornell.mannlib.vivo.mms.configuration.SiteConfig;
 import edu.cornell.mannlib.vivo.mms.configuration.SiteConfig.Site;
 import edu.cornell.mannlib.vivo.mms.configuration.SiteConfig.SiteConfigException;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 
 /**
  * TODO
@@ -22,12 +22,10 @@ public class DiscoverUrisContextImpl extends DiscoverUrisContext {
 	private static final Log log = LogFactory
 			.getLog(DiscoverUrisContextImpl.class);
 
-	private final Mapper<?, ?, ?, ?>.Context context;
 	private final SiteConfig siteConfig;
 
 	public DiscoverUrisContextImpl(Mapper<?, ?, ?, ?>.Context context,
 			Document siteConfigDoc) throws SiteConfigException {
-		this.context = context;
 		this.siteConfig = SiteConfig.parse(siteConfigDoc);
 
 		log.debug("Site Config is: " + siteConfig);
@@ -43,13 +41,6 @@ public class DiscoverUrisContextImpl extends DiscoverUrisContext {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext#getHttpWorker
-	 * ()
-	 */
 	@Override
 	public HttpWorker getHttpWorker() {
 		// TODO Auto-generated method stub

@@ -8,7 +8,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.w3c.dom.Document;
 
 import edu.cornell.mannlib.vivo.mms.configuration.SiteConfig.SiteConfigException;
-import edu.cornell.mannlib.vivo.mms.utils.HttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 
 /**
  * All the context you need to know if you are implementing the
