@@ -14,7 +14,6 @@ import edu.cornell.mannlib.vivo.mms.discovery.AbstractDiscoveryWorkerHarness;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
 import edu.cornell.mannlib.vivo.mms.utils.XPathHelper;
 import edu.cornell.mannlib.vivo.mms.utils.XPathHelper.XpathHelperException;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker.HttpWorkerException;
 
 /**
  * Do the discovery using [vivo]/listrdf.
@@ -44,7 +43,7 @@ public class DiscoverUrisUsingListrdf extends AbstractDiscoveryWorkerHarness {
 		 * Use vivo/listrdf to get the URIs for the class. Parse the result.
 		 */
 		@Override
-		public Iterable<String> discover() {
+		public Iterable<String> discover() throws DiscoveryWorkerException {
 			try {
 				Document uriList = duContext.getHttpWorker()
 						.post(siteUrl + "/listrdf")
@@ -55,8 +54,8 @@ public class DiscoverUrisUsingListrdf extends AbstractDiscoveryWorkerHarness {
 							+ "individual URIs for class '" + classUri + "'");
 				}
 				return uris;
-			} catch (HttpWorkerException | XpathHelperException e) {
-				throw new Error(
+			} catch (Exception e) {
+				throw new DiscoveryWorkerException (
 						"Can't continue. Failed to read the URLs for class '"
 								+ classUri + "' at site '" + siteUrl + "'", e);
 			}

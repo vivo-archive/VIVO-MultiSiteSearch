@@ -2,7 +2,6 @@
 
 package edu.cornell.mannlib.vivo.mms.discovery.largevivosite;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,7 @@ public class DiscoverUrisUsingSearchPages extends
 					url = processPage(fetchPage(nextRequest(url)));
 				}
 				return results;
-			} catch (HttpWorkerException | XpathHelperException e) {
+			} catch (Exception e) {
 				throw new DiscoveryWorkerException(
 						"Failed to fetch the page at '" + url + "'", e);
 			}
@@ -110,7 +109,7 @@ public class DiscoverUrisUsingSearchPages extends
 				try {
 					return new URL(new URL(siteUrl), relativeUrl)
 							.toExternalForm();
-				} catch (MalformedURLException e) {
+				} catch (Exception e) {
 					throw new XpathHelperException("Couldn't convert the "
 							+ "next page URL from relative to absolute: "
 							+ "next page URL '" + relativeUrl + "', site URL '"

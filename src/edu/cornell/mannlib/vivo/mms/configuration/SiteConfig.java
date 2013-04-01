@@ -60,7 +60,7 @@ public class SiteConfig {
 				}
 				sites.put(siteUrl, s);
 			}
-		} catch (XpathHelperException e) {
+		} catch (Exception e) {
 			throw new SiteConfigException("Failed to parse the XML file "
 					+ "for '//site' pattern", e);
 		}
@@ -68,7 +68,8 @@ public class SiteConfig {
 		this.siteMap = Collections.unmodifiableMap(sites);
 
 		if (this.siteMap.isEmpty()) {
-			throw new SiteConfigException("no sites.");
+			throw new SiteConfigException(
+					"The site configuration specifies no sites.");
 		}
 	}
 
@@ -119,7 +120,7 @@ public class SiteConfig {
 					throw new SiteConfigException("site '" + this.siteUrl
 							+ "' has no class URIs.");
 				}
-			} catch (DOMException | XpathHelperException e) {
+			} catch (XpathHelperException e) {
 				throw new SiteConfigException("Failed to parse the XML file.",
 						e);
 			}

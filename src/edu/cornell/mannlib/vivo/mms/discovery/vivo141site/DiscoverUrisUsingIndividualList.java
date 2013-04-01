@@ -89,7 +89,7 @@ public class DiscoverUrisUsingIndividualList extends
 					String href = link.attr("href");
 					try {
 						uris.add(new URL(urlForSite, href).toExternalForm());
-					} catch (MalformedURLException e) {
+					} catch (Exception e) {
 						throw new DiscoveryWorkerException(
 								"Cannot make a valid URL from '" + href
 										+ "', relative to '" + urlForSite + "'",
@@ -113,6 +113,9 @@ public class DiscoverUrisUsingIndividualList extends
 			} catch (HttpWorkerException e) {
 				throw new DiscoveryWorkerException("Problem fetching HTML at '"
 						+ nextPageUrl + "'", e);
+			} catch (Exception e) {
+				throw new DiscoveryWorkerException("Failed to fetch and parse "
+						+ "HTML pageL at '" + nextPageUrl + "'", e);
 			}
 		}
 	}
