@@ -27,20 +27,12 @@ public class TestSearchDiscoveryOnTimsMachine {
 		Log4JHelper.setLoggingLevel(Level.WARN);
 		Log4JHelper.setLoggingLevel("edu.cornell", Level.DEBUG);
 
-		try {
-			Iterable<String> uris = new DiscoverUrisUsingSearchPages()
-					.getUrisForSite(
-							"http://tlw72-dev.library.cornell.edu:8080/vivocornell",
-							new DiscoverUrisContextForTimsMachine());
-			for (String uri : uris) {
-				System.out.println(uri);
-			}
-		} catch (Exception e) {
-			System.err.println("Ended with Exception: " + e);
-			e.printStackTrace();
-		} catch (Error e) {
-			System.err.println("Ended with Error: " + e);
-			e.printStackTrace();
+		Iterable<String> uris = new DiscoverUrisUsingSearchPages()
+				.getUrisForSite(
+						"http://tlw72-dev.library.cornell.edu:8080/vivocornell",
+						new DiscoverUrisContextForTimsMachine());
+		for (String uri : uris) {
+			System.out.println(uri);
 		}
 	}
 

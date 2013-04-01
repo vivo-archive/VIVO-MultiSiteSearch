@@ -25,25 +25,16 @@ public class TestListrdfOnTimsMachine {
 		Log4JHelper.setLoggingLevel(Level.WARN);
 		Log4JHelper.setLoggingLevel("edu.cornell", Level.DEBUG);
 
-		try {
-			long startTime = System.currentTimeMillis();
-			Iterable<String> uris = new DiscoverUrisUsingListrdf()
-					.getUrisForSite(
-							"http://tlw72-dev.library.cornell.edu:8080/vivocornell",
-							new DiscoverUrisContextForTim());
-			long endTime = System.currentTimeMillis();
-			long duration = endTime - startTime;
-			double seconds = duration / 1000;
-			System.out.println(String.format(
-					"Discovered %1d URIs in %2f.3 seconds",
-					Iterables.size(uris), seconds));
-		} catch (Exception e) {
-			System.err.println("Ended with Exception: " + e);
-			e.printStackTrace();
-		} catch (Error e) {
-			System.err.println("Ended with Error: " + e);
-			e.printStackTrace();
-		}
+		long startTime = System.currentTimeMillis();
+		Iterable<String> uris = new DiscoverUrisUsingListrdf().getUrisForSite(
+				"http://tlw72-dev.library.cornell.edu:8080/vivocornell",
+				new DiscoverUrisContextForTim());
+		long endTime = System.currentTimeMillis();
+		long duration = endTime - startTime;
+		double seconds = duration / 1000;
+		System.out.println(String.format(
+				"Discovered %1d URIs in %2f.3 seconds", Iterables.size(uris),
+				seconds));
 	}
 
 	private static class DiscoverUrisContextForTim extends DiscoverUrisContext {

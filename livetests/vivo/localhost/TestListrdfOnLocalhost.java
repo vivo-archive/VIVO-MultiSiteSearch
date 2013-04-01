@@ -26,19 +26,11 @@ public class TestListrdfOnLocalhost {
 		Log4JHelper.setLoggingLevel(Level.WARN);
 		Log4JHelper.setLoggingLevel("edu.cornell", Level.DEBUG);
 
-		try {
-			Iterable<String> uris = new DiscoverUrisUsingListrdf()
-					.getUrisForSite("http://localhost:8080/vivo",
-							new DiscoverUrisContextForLocalhost());
-			for (String uri : uris) {
-				System.out.println(uri);
-			}
-		} catch (Exception e) {
-			System.err.println("Ended with Exception: " + e);
-			e.printStackTrace();
-		} catch (Error e) {
-			System.err.println("Ended with Error: " + e);
-			e.printStackTrace();
+		Iterable<String> uris = new DiscoverUrisUsingListrdf().getUrisForSite(
+				"http://localhost:8080/vivo",
+				new DiscoverUrisContextForLocalhost());
+		for (String uri : uris) {
+			System.out.println(uri);
 		}
 	}
 
