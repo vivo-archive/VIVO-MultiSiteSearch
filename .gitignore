@@ -5,6 +5,7 @@
 project.classpath
 bin
 build
+.pmd
 
 # Output from Ivy
 libs

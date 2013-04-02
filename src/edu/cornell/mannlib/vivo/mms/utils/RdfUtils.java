@@ -10,7 +10,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 /**
  * A collection of static methods for helping deal with RDF
  */
-public class RdfUtils {
+public final class RdfUtils {
 	public static Model toModel(InputStream rdfxml) {
 		Model model = ModelFactory.createDefaultModel();
 		model.read(rdfxml, null);

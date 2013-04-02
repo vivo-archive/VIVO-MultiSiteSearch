@@ -7,7 +7,7 @@ import org.apache.commons.httpclient.HttpClient;
 /**
  * Create an HttpClient with the favored settings.
  */
-public class HttpClientFactory {
+public final class HttpClientFactory {
 	
 	public static HttpClient standardClient() {
 		HttpClient http = new HttpClient();

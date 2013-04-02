@@ -14,7 +14,7 @@ import org.apache.log4j.PropertyConfigurator;
 /**
  * Methods that will help when setting up the Logging.
  */
-public class Log4JHelper {
+public final class Log4JHelper {
 	private static final String DEFAULT_LOG_FILE_PATTERN = "%d{yyyy-MM-dd HH:mm:ss,SSS} %-5p [%c{1}] %m%n";
 
 	/**
@@ -63,4 +63,7 @@ public class Log4JHelper {
 		}
 	}
 
+	private Log4JHelper() {
+		// nothing to initialize
+	}
 }

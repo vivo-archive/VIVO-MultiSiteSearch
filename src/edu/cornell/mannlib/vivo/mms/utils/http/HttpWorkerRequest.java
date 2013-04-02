@@ -38,11 +38,11 @@ public interface HttpWorkerRequest<T> {
 	// Helper classes
 	// ----------------------------------------------------------------------
 
-	public enum Method {
+	enum Method {
 		GET, POST
 	}
 
-	public enum Accept {
+	enum Accept {
 		RDF_XML("application/rdf+xml");
 
 		private final String mimeType;
@@ -61,7 +61,7 @@ public interface HttpWorkerRequest<T> {
 		}
 	}
 
-	public static class Parameter {
+	class Parameter {
 		public final String name;
 		public final String value;
 
