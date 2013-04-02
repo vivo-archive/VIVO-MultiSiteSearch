@@ -15,7 +15,7 @@ import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.XPathHelper;
 import edu.cornell.mannlib.vivo.mms.utils.XPathHelper.XpathHelperException;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker.HttpWorkerException;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest.Accept;
 

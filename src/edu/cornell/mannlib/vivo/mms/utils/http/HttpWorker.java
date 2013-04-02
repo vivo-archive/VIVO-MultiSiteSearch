@@ -3,7 +3,7 @@
 package edu.cornell.mannlib.vivo.mms.utils.http;
 
 /**
- * TODO
+ * The base class for issuing HTTP requests.
  */
 public interface HttpWorker {
 	/**
@@ -17,22 +17,5 @@ public interface HttpWorker {
 	 * execute() on the request.
 	 */
 	HttpWorkerRequest<String> post(String url) throws HttpWorkerException;
-
-	/**
-	 * The exception that these methods might throw.
-	 */
-	public static class HttpWorkerException extends Exception {
-		public HttpWorkerException(String message, Throwable cause) {
-			super(message, cause);
-		}
-
-		public HttpWorkerException(String message) {
-			super(message);
-		}
-
-		public HttpWorkerException(Throwable cause) {
-			super(cause);
-		}
-	}
 
 }

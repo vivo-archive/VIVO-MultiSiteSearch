@@ -4,8 +4,6 @@ package edu.cornell.mannlib.vivo.mms.utils.http;
 
 import com.hp.hpl.jena.rdf.model.Model;
 
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker.HttpWorkerException;
-
 /**
  * TODO
  */

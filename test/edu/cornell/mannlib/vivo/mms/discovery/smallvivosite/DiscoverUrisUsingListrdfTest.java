@@ -12,6 +12,7 @@ import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorkerRequest;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerException;
 
 /**
  * TODO

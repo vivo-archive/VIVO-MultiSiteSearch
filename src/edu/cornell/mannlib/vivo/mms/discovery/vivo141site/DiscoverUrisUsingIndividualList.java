@@ -14,7 +14,7 @@ import org.jsoup.select.Elements;
 import edu.cornell.mannlib.vivo.mms.discovery.BaseDiscoveryWorker;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker.HttpWorkerException;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest;
 
 /**

@@ -2,11 +2,13 @@
 
 package edu.cornell.mannlib.vivo.mms.utils.http;
 
+import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -45,6 +47,11 @@ public class BasicHttpWorker implements HttpWorker {
 
 	/**
 	 * The request calls this method when it is ready for execution.
+	 * 
+	 * @throws HttpBadStatusException
+	 *             if the response status is not 200 OK.
+	 * @throws HttpWorkerException
+	 *             on any other problem.
 	 */
 	protected String executeRequest(BasicHttpWorkerRequest<?> request)
 			throws HttpWorkerException {
@@ -53,7 +60,17 @@ public class BasicHttpWorker implements HttpWorker {
 
 		try {
 			httpClient.executeMethod(method);
-			return IOUtils.toString(method.getResponseBodyAsStream(), "UTF-8");
+			
+			InputStream stream = method.getResponseBodyAsStream();
+			String responseBody = (stream == null) ? "" : IOUtils.toString(
+					stream, "UTF-8");
+
+			if (method.getStatusCode() != HttpStatus.SC_OK) {
+				throw new HttpBadStatusException(request,
+						method.getStatusLine(), responseBody);
+			}
+
+			return responseBody;
 		} catch (Exception e) {
 			throw new HttpWorkerException(e);
 		} finally {

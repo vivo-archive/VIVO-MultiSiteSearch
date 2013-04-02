@@ -17,7 +17,6 @@ import com.hp.hpl.jena.rdf.model.Model;
 import edu.cornell.mannlib.vivo.mms.utils.RdfUtils;
 import edu.cornell.mannlib.vivo.mms.utils.XmlUtils;
 import edu.cornell.mannlib.vivo.mms.utils.XmlUtils.XmlUtilsException;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker.HttpWorkerException;
 
 /**
  * TODO
