@@ -10,6 +10,7 @@ import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.discovery.smallvivosite.DiscoverUrisUsingListrdf;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpClientFactory;
 
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
@@ -30,7 +31,7 @@ public class TestListrdfOnLocalhost {
 		Log4JHelper.setLoggingLevel("edu.cornell", Level.DEBUG);
 
 		DiscoveryWorker worker = new DiscoverUrisUsingListrdf(CLASS_URIS,
-				new BasicHttpWorker());
+				new BasicHttpWorker(HttpClientFactory.standardClient()));
 		Iterable<String> uris = worker
 				.getUrisForSite("http://localhost:8080/vivo");
 		for (String uri : uris) {

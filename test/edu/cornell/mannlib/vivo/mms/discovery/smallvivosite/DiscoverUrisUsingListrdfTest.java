@@ -48,6 +48,7 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 		private final String responseString;
 
 		public DummyHttpWorker(String responseString) {
+			super(null);
 			this.responseString = responseString;
 		}
 

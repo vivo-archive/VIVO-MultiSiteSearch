@@ -29,10 +29,11 @@ import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest.Parameter;
  * when you call execute on the request, it will call back to its parent.
  */
 public class BasicHttpWorker implements HttpWorker {
-	private final HttpClient httpClient = new HttpClient();
+	private final HttpClient httpClient;
 
-	// TODO Refactor to accept an HttpClient in the constructor -- add timeout
-	// to client.
+	public BasicHttpWorker(HttpClient httpClient) {
+		this.httpClient = httpClient;
+	}
 
 	@Override
 	public HttpWorkerRequest<String> get(String url) throws HttpWorkerException {
@@ -60,8 +61,8 @@ public class BasicHttpWorker implements HttpWorker {
 
 		try {
 			httpClient.executeMethod(method);
-			
 			InputStream stream = method.getResponseBodyAsStream();
+
 			String responseBody = (stream == null) ? "" : IOUtils.toString(
 					stream, "UTF-8");
 

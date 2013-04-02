@@ -1,5 +1,6 @@
 package livetest.tools;
 
+import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -19,7 +20,8 @@ public class LimitedUseHttpWorker extends BasicHttpWorker {
 	private final int maxRequests;
 	private int requestsSoFar;
 
-	public LimitedUseHttpWorker(int maxRequests) {
+	public LimitedUseHttpWorker(int maxRequests, HttpClient http) {
+		super(http);
 		this.maxRequests = maxRequests;
 	}
 

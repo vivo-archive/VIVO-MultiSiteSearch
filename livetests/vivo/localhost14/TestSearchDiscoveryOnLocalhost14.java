@@ -13,6 +13,7 @@ import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.discovery.vivo141site.DiscoverUrisUsingIndividualList;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
+import edu.cornell.mannlib.vivo.mms.utils.http.HttpClientFactory;
 
 /**
  * Run a livetest against localhost, using hard-coded class URIS and site URL, a
@@ -31,7 +32,8 @@ public class TestSearchDiscoveryOnLocalhost14 {
 		Log4JHelper.setLoggingLevel("edu.cornell", Level.DEBUG);
 
 		DiscoveryWorker worker = new DiscoverUrisUsingIndividualList(
-				CLASS_URIS, new LimitedUseHttpWorker(10));
+				CLASS_URIS, new LimitedUseHttpWorker(10,
+						HttpClientFactory.standardClient()));
 		Iterable<String> uris = worker
 				.getUrisForSite("http://localhost:8080/vivo14");
 		for (String uri : uris) {
