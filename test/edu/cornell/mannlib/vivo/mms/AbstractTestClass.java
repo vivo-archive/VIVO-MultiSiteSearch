@@ -17,9 +17,9 @@ public abstract class AbstractTestClass {
 	 * The values produced by this Iterable should match the expected values, in
 	 * no particular order.
 	 */
-	@SuppressWarnings("unchecked")
 	protected <T extends Comparable<T>> void assertUnorderedActualIterable(
-			String label, Iterable<T> actual, T... expected) {
+			String label, Iterable<T> actual,
+			@SuppressWarnings("unchecked") T... expected) {
 		assertEqualSets(label, buildSet(expected), buildSet(actual));
 	}
 
@@ -44,8 +44,7 @@ public abstract class AbstractTestClass {
 		assertEquals(message, expected, actual);
 	}
 
-	@SuppressWarnings("unchecked")
-	protected <T> Set<T> buildSet(T... array) {
+	protected <T> Set<T> buildSet(@SuppressWarnings("unchecked") T... array) {
 		return new HashSet<T>(Arrays.asList(array));
 	}
 

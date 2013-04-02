@@ -1,6 +1,9 @@
 package edu.cornell.mannlib.vivo.mms.hadoop;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.util.ToolRunner;
 
 
@@ -16,12 +19,12 @@ public  class VivoBuildIndex extends BaseBuildIndex{
 	}
 
     @Override
-    public Class getIndexClass(){
+    public Class<? extends Mapper<LongWritable, Text, Text, Text>> getIndexClass(){
         return VivoIndexUris.class;
     }
 
     @Override
-    public Class getDiscoveryClass(){
+    public Class<? extends Mapper<LongWritable, Text, Text, Text>> getDiscoveryClass(){
         return VivoUriDiscovery.class;
     }
 }

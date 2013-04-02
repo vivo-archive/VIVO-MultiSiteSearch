@@ -17,7 +17,8 @@ public class ModelLinkedDataService implements LinkedDataService{
     }
 
     /** Adds just the SubPrdObj statements for the URI. */
-    public void getLinkedData(String uri, Model outputModel )throws Exception{
+    @Override
+	public void getLinkedData(String uri, Model outputModel )throws Exception{
         if( uri == null || outputModel==null ) 
             throw new Error("model and uri must not be null ");
         StmtIterator it = 

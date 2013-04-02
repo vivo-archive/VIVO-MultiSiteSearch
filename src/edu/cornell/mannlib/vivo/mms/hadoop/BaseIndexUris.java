@@ -7,7 +7,6 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrServer;
@@ -17,8 +16,6 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import edu.cornell.mannlib.vivo.mms.linkedData.ExpandingLinkedDataService;
-import edu.cornell.mannlib.vivo.mms.linkedData.HttpLinkedDataService;
-import edu.cornell.mannlib.vivo.mms.linkedData.UrisToExpand;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMaker;
 import edu.cornell.mannlib.vivo.mms.solr.DocumentMakerImpl;
 
@@ -33,7 +30,7 @@ import edu.cornell.mannlib.vivo.mms.solr.DocumentMakerImpl;
  *  Output: TBD. Maybe success or error for each URI?
  *  
  */
-public abstract class BaseIndexUris  extends Mapper<LongWritable , Text, Text, Text>{
+public abstract class BaseIndexUris extends Mapper<LongWritable , Text, Text, Text>{
 	Log log = LogFactory.getLog(BaseIndexUris.class);
 
 	DocumentMaker docMaker;	
@@ -43,13 +40,12 @@ public abstract class BaseIndexUris  extends Mapper<LongWritable , Text, Text, T
     /**
      * implementations must provide a linked data source. 
      */
-    protected abstract void setupLinkedDataSource(org.apache.hadoop.mapreduce.Mapper.Context context);
+    protected abstract void setupLinkedDataSource(Context context);
 
     /**
      * Implementations may override this method to prvoide a specialized Document Maker.
      */
-    protected void setupDocMaker(
-            org.apache.hadoop.mapreduce.Mapper.Context context) {
+    protected void setupDocMaker(Context context) {
         docMaker = new DocumentMakerImpl();        
     }
 
@@ -100,7 +96,7 @@ public abstract class BaseIndexUris  extends Mapper<LongWritable , Text, Text, T
         context.write(value, new  Text("SUCCESS"));	    
 	}
 
-    protected void setupSolrServer(org.apache.hadoop.mapreduce.Mapper.Context context){
+    protected void setupSolrServer(org.apache.hadoop.mapreduce.Mapper<?, ?, ?, ?>.Context context){
         String solrUrl = context.getConfiguration().get(BuildIndexUtils.solrUrl);
         solrServer = new HttpSolrServer(solrUrl);
     }

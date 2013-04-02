@@ -1,16 +1,15 @@
 package edu.cornell.mannlib.vivo.mms.linkedData;
 
-import static org.junit.Assert.*;
+import static edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataTestUtils.URI_BDC34;
+import static edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataTestUtils.getBdc34TestModel;
+import static edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataTestUtils.hasOneHopStatementsForUri;
+import static edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataTestUtils.hasTwoHopStatementsForUri;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.hp.hpl.jena.query.Query;
-import com.hp.hpl.jena.query.QueryExecution;
-import com.hp.hpl.jena.query.QueryExecutionFactory;
-import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import static edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataTestUtils.*;
 
 public class ModelLinkedDataServiceTest{
 

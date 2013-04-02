@@ -44,7 +44,8 @@ public class HttpLinkedDataService implements LinkedDataService {
      * @param m may modified this method.
      * @throws Throws descriptive Exception if things go wrong.
      */
-    public void getLinkedData( String uri, Model m )
+    @Override
+	public void getLinkedData( String uri, Model m )
         throws Exception {
         logger.trace("getLinkedData "+uri);
         HttpGet get = new HttpGet(uri);

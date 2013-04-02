@@ -5,18 +5,16 @@ import java.io.File;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
-import org.apache.hadoop.util.ToolRunner;
 
 
 public abstract class BaseBuildIndex extends Configured implements Tool {
-	
-	
-	@SuppressWarnings("unchecked")
     @Override
 	public int run(String[] args) throws Exception {
 		if (args.length != 2)
@@ -89,13 +87,9 @@ public abstract class BaseBuildIndex extends Configured implements Tool {
         }		
 	}
 
-	@SuppressWarnings("rawtypes")
-    public abstract Class getDiscoveryClass();
-
+    public abstract Class<? extends Mapper<LongWritable, Text, Text, Text>> getDiscoveryClass();
 	
-	@SuppressWarnings("rawtypes")
-    public abstract Class getIndexClass();
-	
+    public abstract Class<? extends Mapper<LongWritable, Text, Text, Text>> getIndexClass();
 
 	private int printUsage() {
 		System.out.println("usage: ");
