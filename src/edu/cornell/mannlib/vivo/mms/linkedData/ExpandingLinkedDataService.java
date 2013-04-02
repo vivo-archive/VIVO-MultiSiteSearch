@@ -59,7 +59,7 @@ public class ExpandingLinkedDataService implements LinkedDataService {
     }
 
     public void singleHopExpansion(Model model, List<String>... uriLists) throws Exception {
-        Set<String> uriSet = new HashSet<String>();
+        Set<String> uriSet = new HashSet<>();
         for (List<String> uris : uriLists) {
             uriSet.addAll(uris);
         }
@@ -70,13 +70,13 @@ public class ExpandingLinkedDataService implements LinkedDataService {
 
     public void secondHopExpansion(Model model, List<String> uris) throws Exception {
         //each of the two hop URIs need to be expanded one more hop
-        Set<String> urisFor2ndHop = new HashSet<String>();
+        Set<String> urisFor2ndHop = new HashSet<>();
         for (String uri : urisFor2ndHop) {
             urisFor2ndHop.addAll(getUrisFor2ndExpand(model, uri));
         }
         // logger.trace("list of URIs to expand for 2nd hop for individual %s: %s"
         //         .format(uri, urisFor2ndHop));
-        singleHopExpansion(model, new ArrayList<String>(urisFor2ndHop));
+        singleHopExpansion(model, new ArrayList<>(urisFor2ndHop));
     }
 
     public List<String> getUrisFor2ndExpand(Model model, String uri2ndHop) {

@@ -21,7 +21,7 @@ public class XmlNamespaceContext implements NamespaceContext {
 
 	public XmlNamespaceContext(String defaultNamespaceUri,
 			XmlPrefix[] xmlPrefixes) {
-		this.namespaceMap = new HashMap<String, String>();
+		this.namespaceMap = new HashMap<>();
 		this.namespaceMap.put(XMLConstants.XML_NS_PREFIX,
 				XMLConstants.XML_NS_URI);
 		this.namespaceMap.put(XMLConstants.XMLNS_ATTRIBUTE,
@@ -69,7 +69,7 @@ public class XmlNamespaceContext implements NamespaceContext {
 			throw new IllegalArgumentException("namespaceURI may not be null.");
 		}
 
-		Set<String> prefixes = new HashSet<String>();
+		Set<String> prefixes = new HashSet<>();
 		for (Map.Entry<String, String> entry : namespaceMap.entrySet()) {
 			if (namespaceURI.equals(entry.getValue())) {
 				prefixes.add(entry.getKey());

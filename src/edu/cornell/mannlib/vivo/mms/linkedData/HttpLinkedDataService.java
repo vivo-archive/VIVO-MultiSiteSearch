@@ -78,8 +78,7 @@ public class HttpLinkedDataService implements LinkedDataService {
             throw new Exception("could not get HttpEntity for " + uri +
                                 " status: " + response.getStatusLine() );
         }else{
-            InputStream instream = entity.getContent();
-            try {
+            try (InputStream instream = entity.getContent()){
                 m.read(instream, "", getRDFType( entity ));
                 instream.close();
             } catch (Exception ex ){
@@ -121,7 +120,7 @@ public class HttpLinkedDataService implements LinkedDataService {
     
     private static final Map<String,String>HEADER_TO_JENASTR;
     static{
-        Map<String,String> m = new HashMap<String,String>();
+        Map<String,String> m = new HashMap<>();
         m.put("text/n3", "N3");
         m.put("text/rdf+n3", "N3");
         m.put("application/rdf+xml", "RDF/XML");

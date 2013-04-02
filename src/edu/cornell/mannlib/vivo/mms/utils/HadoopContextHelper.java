@@ -65,25 +65,16 @@ public class HadoopContextHelper {
 	 *             If no such property was found, if the file does not exist, if
 	 *             the file could not be read, or if the file is not valid XML.
 	 */
-	public static Document parseXmlFileAtProperty(Mapper<?, ?, ?, ?>.Context context,
-			String propertyName) {
+	public static Document parseXmlFileAtProperty(
+			Mapper<?, ?, ?, ?>.Context context, String propertyName) {
 		String filePath = context.getConfiguration().get(propertyName);
 		if (filePath == null) {
 			throw new Error("Cannot continue: no configuration "
 					+ "value was provided for '" + propertyName + "'");
 		}
 
-		FileSystem fs;
-		try {
-			fs = FileSystem.get(context.getConfiguration());
-		} catch (IOException e) {
-			throw new Error("Cannot continue: unable to initialize "
-					+ "the Hadoop file system", e);
-		}
-
 		Path p = new Path(filePath);
-		FSDataInputStream stream;
-		try {
+		try (FileSystem fs = FileSystem.get(context.getConfiguration())) {
 			if (!fs.exists(p)) {
 				throw new Error("Cannot continue: file '" + filePath
 						+ "' does not exist in the file system");
@@ -93,18 +84,16 @@ public class HadoopContextHelper {
 						+ "' is a directory; expecting a file.");
 			}
 
-			stream = fs.open(p);
+			try (FSDataInputStream stream = fs.open(p)) {
+				return XmlUtils.parseXml(stream);
+			} catch (XmlUtilsException e) {
+				throw new Error(
+						"Cannot continue: failed to parse the XML in file '"
+								+ filePath + "'", e);
+			}
 		} catch (IOException e) {
 			throw new Error("Cannot continue: unable to read file '" + filePath
 					+ "' from the Hadoop file system.", e);
-		}
-
-		try {
-			return XmlUtils.parseXml(stream);
-		} catch (XmlUtilsException e) {
-			throw new Error(
-					"Cannot continue: failed to parse the XML in file '"
-							+ filePath + "'", e);
 		}
 	}
 

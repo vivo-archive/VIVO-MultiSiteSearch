@@ -23,7 +23,7 @@ public abstract class BaseDiscoveryWorker implements DiscoveryWorker {
 	@Override
 	public final Iterable<String> getUrisForSite(String siteUrl)
 			throws DiscoveryWorkerException {
-		List<Iterable<String>> iterables = new ArrayList<Iterable<String>>();
+		List<Iterable<String>> iterables = new ArrayList<>();
 
 		for (String classUri : classUris) {
 			try {

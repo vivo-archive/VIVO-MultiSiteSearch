@@ -1,13 +1,15 @@
 # Eclipse artifacts
 .classpath
 .project
+.settings
 project.classpath
 bin
 build
-# output from Ivy
+
+# Output from Ivy
 libs
 
-# emacs temp files
+# Emacs temp files
 *~
 [#]*[#]
 .\#*

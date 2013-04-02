@@ -29,9 +29,9 @@ public abstract class AbstractTestClass {
 			return;
 		}
 
-		Set<T> missing = new TreeSet<T>(expected);
+		Set<T> missing = new TreeSet<>(expected);
 		missing.removeAll(actual);
-		Set<T> extras = new TreeSet<T>(actual);
+		Set<T> extras = new TreeSet<>(actual);
 		extras.removeAll(expected);
 
 		String message = label;
@@ -45,11 +45,11 @@ public abstract class AbstractTestClass {
 	}
 
 	protected <T> Set<T> buildSet(@SuppressWarnings("unchecked") T... array) {
-		return new HashSet<T>(Arrays.asList(array));
+		return new HashSet<>(Arrays.asList(array));
 	}
 
 	protected <T> Set<T> buildSet(Iterable<T> iterable) {
-		Set<T> set = new HashSet<T>();
+		Set<T> set = new HashSet<>();
 		for (T t : iterable) {
 			set.add(t);
 		}

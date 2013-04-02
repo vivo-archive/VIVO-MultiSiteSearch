@@ -57,9 +57,9 @@ public class UrisToExpand  {
     }
     
     public Map<String,List<String>> getUris(String uri, Model model) {
-        List<String> twoHopUris = new LinkedList<String>();
-        List<String> oneHopUris = new LinkedList<String>();
-        Map<String,List<String>> rmap = new HashMap<String,List<String>>();
+        List<String> twoHopUris = new LinkedList<>();
+        List<String> oneHopUris = new LinkedList<>();
+        Map<String,List<String>> rmap = new HashMap<>();
         rmap.put("oneHop",oneHopUris);
         rmap.put("twoHop",twoHopUris);
 
@@ -96,7 +96,7 @@ public class UrisToExpand  {
     }
     
     public List<String> getSingleHopUris(String uri, Model model){
-        List<String> oneHopUris = new LinkedList<String>();
+        List<String> oneHopUris = new LinkedList<>();
         
         model.enterCriticalSection(Lock.READ);
         try{
@@ -175,7 +175,7 @@ public class UrisToExpand  {
 
             vitro+"mainImage"
         };
-        return new HashSet<String>( Arrays.asList(twoHopPredicates) );
+        return new HashSet<>( Arrays.asList(twoHopPredicates) );
     }
 
     
@@ -188,14 +188,14 @@ public class UrisToExpand  {
             //not served as linked data.
             "http://vivoweb.org/ontology/"
         };
-        return new HashSet<String>( Arrays.asList(skip) );
+        return new HashSet<>( Arrays.asList(skip) );
     }    
 
     public static Set<String> getDefaultSkippedPredicates(){
         String[] skip = {
             RDF.type.getURI()
         };
-        return new HashSet<String>( Arrays.asList(skip) );
+        return new HashSet<>( Arrays.asList(skip) );
     }
 
 }

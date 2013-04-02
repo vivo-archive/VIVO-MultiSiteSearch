@@ -56,7 +56,7 @@ public class DiscoverUrisUsingListrdf extends BaseDiscoveryWorker {
 
 	private Set<String> parseUriList(Document uriListDoc)
 			throws XpathHelperException {
-		Set<String> uris = new HashSet<String>();
+		Set<String> uris = new HashSet<>();
 		XPathHelper xp = XPathHelper.getHelper(XPathHelper.RDF_PREFIX);
 		Node rootNode = uriListDoc.getDocumentElement();
 		for (Node node : xp.findNodes(XPATH_TO_INDIVIDUAL_URI, rootNode)) {

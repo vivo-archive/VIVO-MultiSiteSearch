@@ -53,7 +53,7 @@ public class XPathHelper {
 			XPathExpression xpe = xpath.compile(pattern);
 			NodeList nodes = (NodeList) xpe.evaluate(context,
 					XPathConstants.NODESET);
-			List<Node> list = new ArrayList<Node>();
+			List<Node> list = new ArrayList<>();
 			for (int i = 0; i < nodes.getLength(); i++) {
 				list.add(nodes.item(i));
 			}

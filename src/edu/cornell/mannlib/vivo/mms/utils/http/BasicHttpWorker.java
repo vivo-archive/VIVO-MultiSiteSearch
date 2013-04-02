@@ -61,17 +61,15 @@ public class BasicHttpWorker implements HttpWorker {
 
 		try {
 			httpClient.executeMethod(method);
-			InputStream stream = method.getResponseBodyAsStream();
-
-			String responseBody = (stream == null) ? "" : IOUtils.toString(
-					stream, "UTF-8");
-
-			if (method.getStatusCode() != HttpStatus.SC_OK) {
-				throw new HttpBadStatusException(request,
-						method.getStatusLine(), responseBody);
+			try (InputStream stream = method.getResponseBodyAsStream()) {
+				String responseBody = (stream == null) ? "" : IOUtils.toString(
+						stream, "UTF-8");
+				if (method.getStatusCode() != HttpStatus.SC_OK) {
+					throw new HttpBadStatusException(request,
+							method.getStatusLine(), responseBody);
+				}
+				return responseBody;
 			}
-
-			return responseBody;
 		} catch (Exception e) {
 			throw new HttpWorkerException(e);
 		} finally {
