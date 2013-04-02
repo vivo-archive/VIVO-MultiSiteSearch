@@ -2,17 +2,17 @@
 
 package vivo.localhost14;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
+
+import livetest.tools.LimitedUseHttpWorker;
 
 import org.apache.log4j.Level;
 
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.discovery.vivo141site.DiscoverUrisUsingIndividualList;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
-import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 
 /**
  * Run a livetest against localhost, using hard-coded class URIS and site URL, a
@@ -21,35 +21,21 @@ import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
  * Run outside of Hadoop.
  */
 public class TestSearchDiscoveryOnLocalhost14 {
-	public static void main(String[] args) {
+	private static final List<String> CLASS_URIS = Arrays.asList(
+			"http://vivoweb.org/ontology/core#Continent",
+			"http://xmlns.com/foaf/0.1/Person");
+
+	public static void main(String[] args) throws DiscoveryWorkerException {
 		Log4JHelper.resetToConsole();
 		Log4JHelper.setLoggingLevel(Level.WARN);
 		Log4JHelper.setLoggingLevel("edu.cornell", Level.DEBUG);
 
-		Iterable<String> uris = new DiscoverUrisUsingIndividualList()
-				.getUrisForSite("http://localhost:8080/vivo14",
-						new DiscoverUrisContextForLocalhost());
+		DiscoveryWorker worker = new DiscoverUrisUsingIndividualList(
+				CLASS_URIS, new LimitedUseHttpWorker(10));
+		Iterable<String> uris = worker
+				.getUrisForSite("http://localhost:8080/vivo14");
 		for (String uri : uris) {
 			System.out.println(uri);
 		}
 	}
-
-	private static class DiscoverUrisContextForLocalhost extends
-			DiscoverUrisContext {
-
-		@Override
-		public Collection<String> getClassUris(String siteUrl) {
-			List<String> uris = new ArrayList<>();
-			uris.add("http://xmlns.com/foaf/0.1/Person");
-			uris.add("http://vivoweb.org/ontology/core#Continent");
-			return uris;
-		}
-
-		@Override
-		public HttpWorker getHttpWorker() {
-			return new BasicHttpWorker();
-		}
-
-	}
-
 }

@@ -8,7 +8,7 @@ import java.util.Collections;
 import org.junit.Test;
 
 import edu.cornell.mannlib.vivo.mms.AbstractTestClass;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorkerRequest;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
@@ -28,27 +28,18 @@ public class DiscoverUrisUsingListrdfTest extends AbstractTestClass {
 			+ "  </rdf:Description>\n" + "</rdf:RDF>\n";
 
 	private DiscoverUrisUsingListrdf urlFinder;
-	private DiscoverUrisContext duContext;
+	private Collection<String> classUris;
+	private HttpWorker http;
 
 	@Test
-	public void parseHardcodedResult() {
-		duContext = new DiscoverUrisContext() {
+	public void parseHardcodedResult() throws DiscoveryWorkerException {
+		classUris = Collections.singleton("junk");
+		http = new DummyHttpWorker(HARDCODED_RDF);
 
-			@Override
-			public HttpWorker getHttpWorker() {
-				return new DummyHttpWorker(HARDCODED_RDF);
-			}
-
-			@Override
-			public Collection<String> getClassUris(String siteUrl) {
-				return Collections.singleton("junk");
-			}
-		};
-
-		urlFinder = new DiscoverUrisUsingListrdf();
+		urlFinder = new DiscoverUrisUsingListrdf(classUris, http);
 
 		assertUnorderedActualIterable("URIs",
-				urlFinder.getUrisForSite("http://BOGUS", duContext),
+				urlFinder.getUrisForSite("http://BOGUS"),
 				"http://vivo.mydomain.edu/individual/n5638");
 	}
 

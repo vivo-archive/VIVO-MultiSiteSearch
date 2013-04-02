@@ -1,14 +1,6 @@
 package edu.cornell.mannlib.vivo.mms.hadoop;
 
-import java.io.IOException;
-
-import org.apache.hadoop.io.LongWritable;
-import org.apache.hadoop.io.Text;
-import org.w3c.dom.Document;
-
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisContext;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisForSite;
-import edu.cornell.mannlib.vivo.mms.utils.HadoopContextHelper;
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
 
 /*
  * This is a suggestion of how something like this could be done.
@@ -26,19 +18,24 @@ import edu.cornell.mannlib.vivo.mms.utils.HadoopContextHelper;
  */
 
 public class VivoUriDiscovery extends BaseUriDiscovery {
+	public VivoUriDiscovery(DiscoveryWorker uriSource) {
+		super(uriSource);
+	}
 
-
-    protected DiscoverUrisForSite getDiscoverUrisForSite( Context context ){
-
-        //String transformLevel = context.getConfig().get(BuildIndexUtils.Iso2332TransformLevel);
-
-        //return new VivoDiscoverUrisForSite( 
-        //  new HttpWorkerImpl( HdfsHttpClientCacheStorage( context.getFs() ),
-        //  new DiscoverUrisUsingSearchPages( ), 
-        //  new ISO2332HttpResponseTransformer( transformLevel ) ,
-        //);
-
-        throw new Error("This is unimplemented.");
-    }
-
+	// TODO Implement it or get rid of it.
+	
+	// protected DiscoverUrisForSite getDiscoverUrisForSite( Context context ){
+	//
+	// String transformLevel =
+	// context.getConfig().get(BuildIndexUtils.Iso2332TransformLevel);
+	//
+	// return new VivoDiscoverUrisForSite(
+	// new HttpWorkerImpl( HdfsHttpClientCacheStorage( context.getFs() ),
+	// new DiscoverUrisUsingSearchPages( ),
+	// new ISO2332HttpResponseTransformer( transformLevel ) ,
+	// );
+	//
+	// throw new Error("This is unimplemented.");
+	// }
+	//
 }
