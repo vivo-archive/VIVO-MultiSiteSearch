@@ -43,8 +43,8 @@ public class ExpandingLinkedDataService implements LinkedDataService {
         List<String> oneHop = map.get("oneHop");
         List<String> twoHop = map.get("twoHop");
 
-        logger.trace("oneHop expansion list for URI %s: %s".format(uri, oneHop));
-        logger.trace("twoHop expansion list for URI %s: %s".format(uri, twoHop));
+        logger.trace(String.format("oneHop expansion list for URI %s: %s", uri, oneHop));
+        logger.trace(String.format("twoHop expansion list for URI %s: %s", uri, twoHop));
 
         //oneHop = oneHop.filterNot( innerSkipUri );
         //twoHop = twoHop.filterNot( innerSkipUri );
