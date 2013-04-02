@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package edu.cornell.mannlib.vivo.mms.discovery.smallvivosite;
+package edu.cornell.mannlib.vivo.mms.discovery;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +19,7 @@ import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorker;
 /**
  * Do the discovery using [vivo]/listrdf.
  * 
- * This does not work on a large VIVO because listrdf won't bring back more than
+ * This does not work on a large VIVO installations, because listrdf won't bring back more than
  * 30,000 individuals per class.
  */
 public class DiscoverUrisUsingListrdf extends BaseDiscoveryWorker {

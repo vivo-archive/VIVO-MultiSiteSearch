@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Level;
 
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisUsingListrdf;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
-import edu.cornell.mannlib.vivo.mms.discovery.smallvivosite.DiscoverUrisUsingListrdf;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpClientFactory;

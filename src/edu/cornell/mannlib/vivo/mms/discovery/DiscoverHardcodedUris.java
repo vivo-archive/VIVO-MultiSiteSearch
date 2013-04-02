@@ -1,10 +1,10 @@
-package edu.cornell.mannlib.vivo.mms.discovery.testtarget;
+package edu.cornell.mannlib.vivo.mms.discovery;
 
 import java.util.Arrays;
 
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
 
-public class TestDiscovery implements DiscoveryWorker {
+public class DiscoverHardcodedUris implements DiscoveryWorker {
 	@Override
 	public Iterable<String> getUrisForSite(String siteUrl) {
 		return Arrays.asList(

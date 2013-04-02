@@ -9,9 +9,9 @@ import livetest.tools.LimitedUseHttpWorker;
 
 import org.apache.log4j.Level;
 
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisUsingIndividualList;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
-import edu.cornell.mannlib.vivo.mms.discovery.vivo141site.DiscoverUrisUsingIndividualList;
 import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpClientFactory;
 

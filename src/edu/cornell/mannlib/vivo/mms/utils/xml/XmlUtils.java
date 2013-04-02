@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package edu.cornell.mannlib.vivo.mms.utils;
+package edu.cornell.mannlib.vivo.mms.utils.xml;
 
 import java.io.IOException;
 import java.io.InputStream;

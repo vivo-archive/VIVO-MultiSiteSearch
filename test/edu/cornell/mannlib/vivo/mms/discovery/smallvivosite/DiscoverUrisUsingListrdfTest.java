@@ -8,6 +8,7 @@ import java.util.Collections;
 import org.junit.Test;
 
 import edu.cornell.mannlib.vivo.mms.AbstractTestClass;
+import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisUsingListrdf;
 import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorkerRequest;

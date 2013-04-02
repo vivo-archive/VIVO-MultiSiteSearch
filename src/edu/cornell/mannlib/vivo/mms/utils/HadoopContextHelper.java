@@ -10,7 +10,8 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.w3c.dom.Document;
 
-import edu.cornell.mannlib.vivo.mms.utils.XmlUtils.XmlUtilsException;
+import edu.cornell.mannlib.vivo.mms.utils.xml.XmlUtils;
+import edu.cornell.mannlib.vivo.mms.utils.xml.XmlUtils.XmlUtilsException;
 
 /**
  * A collection of methods to help with the Hadoop context.

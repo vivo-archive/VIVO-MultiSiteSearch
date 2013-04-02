@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package edu.cornell.mannlib.vivo.mms.discovery.largevivosite;
+package edu.cornell.mannlib.vivo.mms.discovery;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -22,6 +22,8 @@ import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest.Accept;
 /**
  * Issue repeated requests to search for the individual URIs until we have all
  * of them.
+ * 
+ * Doesn't work on VIVO 1.4 or 1.4.1
  */
 public class DiscoverUrisUsingSearchPages extends BaseDiscoveryWorker {
 	private static final int HITS_PER_PAGE = 10000;

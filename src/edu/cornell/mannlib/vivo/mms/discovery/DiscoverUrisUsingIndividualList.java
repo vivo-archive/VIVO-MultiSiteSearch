@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package edu.cornell.mannlib.vivo.mms.discovery.vivo141site;
+package edu.cornell.mannlib.vivo.mms.discovery;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -18,8 +18,10 @@ import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerException;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest;
 
 /**
- * Issue repeated requests to search for the individual URIs until we have all
- * of them.
+ * Issue repeated requests for Index pages of the selected classes until we have
+ * all of them.
+ * 
+ * Useful on vivo1.4.1 because Discovery by Search Pages doesn't work.
  */
 public class DiscoverUrisUsingIndividualList extends BaseDiscoveryWorker {
 
