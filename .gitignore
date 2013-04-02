@@ -7,7 +7,10 @@ build
 # output from Ivy
 libs
 
-#emacs temp files
+# emacs temp files
 *~
 [#]*[#]
 .\#*
+
+# Junit output
+TEST-*.txt
