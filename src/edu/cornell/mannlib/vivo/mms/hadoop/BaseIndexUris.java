@@ -96,7 +96,7 @@ public abstract class BaseIndexUris extends Mapper<LongWritable , Text, Text, Te
         context.write(value, new  Text("SUCCESS"));	    
 	}
 
-    protected void setupSolrServer(org.apache.hadoop.mapreduce.Mapper<?, ?, ?, ?>.Context context){
+    protected void setupSolrServer(Context context){
         String solrUrl = context.getConfiguration().get(BuildIndexUtils.solrUrl);
         solrServer = new HttpSolrServer(solrUrl);
     }
