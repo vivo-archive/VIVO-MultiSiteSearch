@@ -1,6 +1,6 @@
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
-package vivo.localhost14;
+package testAlone.localhost14;
 
 import java.util.Arrays;
 import java.util.List;
