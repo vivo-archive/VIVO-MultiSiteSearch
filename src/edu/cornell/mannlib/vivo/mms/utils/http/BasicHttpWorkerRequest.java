@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 import org.jsoup.Jsoup;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -29,7 +30,7 @@ public abstract class BasicHttpWorkerRequest<T> implements HttpWorkerRequest<T> 
 	private final Method method;
 
 	private List<String> acceptTypes = new ArrayList<>();
-	private List<Parameter> parameters = new ArrayList<>();
+	private List<NameValuePair> parameters = new ArrayList<>();
 	private String urlWithoutParameters;
 
 	public BasicHttpWorkerRequest(BasicHttpWorker worker, String url,
@@ -52,7 +53,7 @@ public abstract class BasicHttpWorkerRequest<T> implements HttpWorkerRequest<T> 
 
 	@Override
 	public BasicHttpWorkerRequest<T> parameter(String name, Object value) {
-		parameters.add(new Parameter(name, String.valueOf(value)));
+		parameters.add(new BasicNameValuePair(name, String.valueOf(value)));
 		return this;
 	}
 
@@ -74,7 +75,7 @@ public abstract class BasicHttpWorkerRequest<T> implements HttpWorkerRequest<T> 
 		return urlWithoutParameters;
 	}
 
-	public List<Parameter> getParameters() {
+	public List<NameValuePair> getParameters() {
 		return parameters;
 	}
 
@@ -134,9 +135,7 @@ public abstract class BasicHttpWorkerRequest<T> implements HttpWorkerRequest<T> 
 					+ "include parameters: '" + url + "'");
 		}
 
-		for (NameValuePair pair : URLEncodedUtils.parse(parts[1], utf8)) {
-			parameters.add(new Parameter(pair.getName(), pair.getValue()));
-		}
+		parameters.addAll(URLEncodedUtils.parse(parts[1], utf8));
 	}
 
 	@Override

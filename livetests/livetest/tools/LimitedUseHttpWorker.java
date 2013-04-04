@@ -1,8 +1,8 @@
 package livetest.tools;
 
-import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.http.client.HttpClient;
 
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorkerRequest;

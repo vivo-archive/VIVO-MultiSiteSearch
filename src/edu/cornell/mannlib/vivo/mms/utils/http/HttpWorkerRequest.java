@@ -60,20 +60,4 @@ public interface HttpWorkerRequest<T> {
 			return mimeType;
 		}
 	}
-
-	class Parameter {
-		public final String name;
-		public final String value;
-
-		public Parameter(String name, String value) {
-			this.name = name;
-			this.value = value;
-		}
-
-		@Override
-		public String toString() {
-			return "Parameter [" + name + "=" + value + "]";
-		}
-
-	}
 }

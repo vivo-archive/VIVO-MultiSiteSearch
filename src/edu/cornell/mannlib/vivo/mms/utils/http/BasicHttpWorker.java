@@ -3,21 +3,23 @@
 package edu.cornell.mannlib.vivo.mms.utils.http;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.List;
 
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorkerRequest.StringHttpWorkerRequest;
 import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest.Method;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest.Parameter;
 
 /**
  * The basic implementation of the HttpClient.
@@ -29,6 +31,8 @@ import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerRequest.Parameter;
  * when you call execute on the request, it will call back to its parent.
  */
 public class BasicHttpWorker implements HttpWorker {
+	private static final Charset utf8 = Charset.forName("UTF-8");
+
 	private final HttpClient httpClient;
 
 	public BasicHttpWorker(HttpClient httpClient) {
@@ -56,56 +60,48 @@ public class BasicHttpWorker implements HttpWorker {
 	 */
 	protected String executeRequest(BasicHttpWorkerRequest<?> request)
 			throws HttpWorkerException {
-		HttpMethod method = (request.getMethod() == Method.GET) ? buildGetMethod(request)
+		HttpRequestBase hreq = (request.getMethod() == Method.GET) ? buildGetMethod(request)
 				: buildPostMethod(request);
 
 		try {
-			httpClient.executeMethod(method);
-			try (InputStream stream = method.getResponseBodyAsStream()) {
+			HttpResponse hresp = httpClient.execute(hreq);
+			try (InputStream stream = hresp.getEntity().getContent()) {
 				String responseBody = (stream == null) ? "" : IOUtils.toString(
 						stream, "UTF-8");
-				if (method.getStatusCode() != HttpStatus.SC_OK) {
+				if (hresp.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
 					throw new HttpBadStatusException(request,
-							method.getStatusLine(), responseBody);
+							hresp.getStatusLine(), responseBody);
 				}
 				return responseBody;
 			}
 		} catch (Exception e) {
 			throw new HttpWorkerException(e);
 		} finally {
-			method.releaseConnection();
+			hreq.releaseConnection();
 		}
 	}
 
-	private HttpMethod buildPostMethod(BasicHttpWorkerRequest<?> request) {
-		PostMethod method = new PostMethod(request.getUrlWithoutParameters());
-		method.addParameters(parametersAsPairs(request.getParameters()));
-		applyAcceptTypes(method, request);
-		return method;
+	private HttpPost buildPostMethod(BasicHttpWorkerRequest<?> request) {
+		HttpPost post = new HttpPost(request.getUrlWithoutParameters());
+		post.setEntity(new UrlEncodedFormEntity(request.getParameters(), utf8));
+		applyAcceptTypes(post, request);
+		return post;
 	}
 
-	private HttpMethod buildGetMethod(BasicHttpWorkerRequest<?> request) {
-		GetMethod method = new GetMethod(request.getUrlWithoutParameters());
-		method.setQueryString(parametersAsPairs(request.getParameters()));
-		applyAcceptTypes(method, request);
-		return method;
+	private HttpGet buildGetMethod(BasicHttpWorkerRequest<?> request) {
+		String qString = URLEncodedUtils.format(request.getParameters(), utf8);
+		String bareUrl = request.getUrlWithoutParameters();
+		HttpGet get = new HttpGet(bareUrl + qString);
+		applyAcceptTypes(get, request);
+		return get;
 	}
 
-	private NameValuePair[] parametersAsPairs(List<Parameter> parameters) {
-		NameValuePair[] pairs = new NameValuePair[parameters.size()];
-		for (int i = 0; i < pairs.length; i++) {
-			Parameter p = parameters.get(i);
-			pairs[i] = new NameValuePair(p.name, p.value);
-		}
-		return pairs;
-	}
-
-	private void applyAcceptTypes(HttpMethod method,
+	private void applyAcceptTypes(HttpRequest hreq,
 			BasicHttpWorkerRequest<?> request) {
 		List<String> acceptTypes = request.getAcceptTypes();
 		if (!acceptTypes.isEmpty()) {
 			String acceptable = StringUtils.join(acceptTypes, ", ");
-			method.addRequestHeader(new Header("Accept", acceptable));
+			hreq.addHeader("Accept", acceptable);
 		}
 	}
 

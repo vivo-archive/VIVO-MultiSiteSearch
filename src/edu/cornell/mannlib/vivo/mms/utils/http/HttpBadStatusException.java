@@ -2,7 +2,7 @@
 
 package edu.cornell.mannlib.vivo.mms.utils.http;
 
-import org.apache.commons.httpclient.StatusLine;
+import org.apache.http.StatusLine;
 
 /**
  * How to report a 404 or a 500 error, etc.
