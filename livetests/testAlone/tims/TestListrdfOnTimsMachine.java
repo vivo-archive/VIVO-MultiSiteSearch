@@ -7,12 +7,12 @@ import java.util.List;
 
 import org.apache.log4j.Level;
 
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisUsingListrdf;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
-import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
-import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpClientFactory;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoverUrisUsingListrdf;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorker;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorkerException;
+import edu.cornell.mannlib.vivo.mss.utils.Log4JHelper;
+import edu.cornell.mannlib.vivo.mss.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mss.utils.http.HttpClientFactory;
 
 /**
  * Test against Tim's fully-populated mirror of VIVO Cornell

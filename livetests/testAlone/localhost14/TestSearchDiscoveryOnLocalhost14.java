@@ -9,11 +9,11 @@ import livetest.tools.LimitedUseHttpWorker;
 
 import org.apache.log4j.Level;
 
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisUsingIndividualList;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
-import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpClientFactory;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoverUrisUsingIndividualList;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorker;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorkerException;
+import edu.cornell.mannlib.vivo.mss.utils.Log4JHelper;
+import edu.cornell.mannlib.vivo.mss.utils.http.HttpClientFactory;
 
 /**
  * Run a livetest against localhost, using hard-coded class URIS and site URL, a

@@ -12,15 +12,15 @@ import org.apache.log4j.Level;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoverUrisUsingListrdf;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorkerException;
-import edu.cornell.mannlib.vivo.mms.linkedData.ExpandingLinkedDataService;
-import edu.cornell.mannlib.vivo.mms.linkedData.LinkedDataService;
-import edu.cornell.mannlib.vivo.mms.linkedData.UrisToExpand;
-import edu.cornell.mannlib.vivo.mms.utils.Log4JHelper;
-import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpClientFactory;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoverUrisUsingListrdf;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorker;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorkerException;
+import edu.cornell.mannlib.vivo.mss.linkedData.ExpandingLinkedDataService;
+import edu.cornell.mannlib.vivo.mss.linkedData.LinkedDataService;
+import edu.cornell.mannlib.vivo.mss.linkedData.UrisToExpand;
+import edu.cornell.mannlib.vivo.mss.utils.Log4JHelper;
+import edu.cornell.mannlib.vivo.mss.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mss.utils.http.HttpClientFactory;
 
 /**
  * TODO

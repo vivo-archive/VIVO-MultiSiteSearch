@@ -6,7 +6,7 @@ import org.apache.http.client.HttpClient;
 
 import com.hp.hpl.jena.rdf.model.Model;
 
-import edu.cornell.mannlib.vivo.mms.linkedData.HttpLinkedDataService;
+import edu.cornell.mannlib.vivo.mss.linkedData.HttpLinkedDataService;
 
 /**
  * TODO

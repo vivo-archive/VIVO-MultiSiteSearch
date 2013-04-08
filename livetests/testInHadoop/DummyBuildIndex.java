@@ -15,10 +15,10 @@ import org.apache.solr.common.SolrInputDocument;
 
 import com.hp.hpl.jena.rdf.model.Model;
 
-import edu.cornell.mannlib.vivo.mms.discovery.DiscoveryWorker;
-import edu.cornell.mannlib.vivo.mms.hadoop.BaseBuildIndex;
-import edu.cornell.mannlib.vivo.mms.hadoop.BaseIndexUris;
-import edu.cornell.mannlib.vivo.mms.hadoop.BaseUriDiscovery;
+import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorker;
+import edu.cornell.mannlib.vivo.mss.hadoop.BaseBuildIndex;
+import edu.cornell.mannlib.vivo.mss.hadoop.BaseIndexUris;
+import edu.cornell.mannlib.vivo.mss.hadoop.BaseUriDiscovery;
 
 /**
  * TODO

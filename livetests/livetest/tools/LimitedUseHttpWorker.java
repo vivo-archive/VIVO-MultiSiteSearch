@@ -4,9 +4,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.http.client.HttpClient;
 
-import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorker;
-import edu.cornell.mannlib.vivo.mms.utils.http.BasicHttpWorkerRequest;
-import edu.cornell.mannlib.vivo.mms.utils.http.HttpWorkerException;
+import edu.cornell.mannlib.vivo.mss.utils.http.BasicHttpWorker;
+import edu.cornell.mannlib.vivo.mss.utils.http.BasicHttpWorkerRequest;
+import edu.cornell.mannlib.vivo.mss.utils.http.HttpWorkerException;
 
 /* $This file is distributed under the terms of the license in /doc/license.txt$ */
 
