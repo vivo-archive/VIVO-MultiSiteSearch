@@ -7,17 +7,14 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.solr.client.solrj.SolrServer;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.apache.solr.common.SolrInputDocument;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
-import edu.cornell.mannlib.vivo.mss.linkedData.ExpandingLinkedDataService;
+import edu.cornell.mannlib.vivo.mss.linkedData.LinkedDataService;
 import edu.cornell.mannlib.vivo.mss.solr.DocumentMaker;
-import edu.cornell.mannlib.vivo.mss.solr.DocumentMakerImpl;
+import edu.cornell.mannlib.vivo.mss.solr.SolrIndexService;
 
 /**
  * This class accepts a list of URIs to index and then gets the linked data for the
@@ -33,30 +30,33 @@ import edu.cornell.mannlib.vivo.mss.solr.DocumentMakerImpl;
 public abstract class BaseIndexUris extends Mapper<LongWritable , Text, Text, Text>{
 	Log log = LogFactory.getLog(BaseIndexUris.class);
 
-	DocumentMaker docMaker;	
-	SolrServer solrServer;
-	ExpandingLinkedDataService dataSource;
+	protected DocumentMaker docMaker;	
+	protected SolrIndexService solrServer;
+	protected LinkedDataService dataSource;
 
     /**
-     * implementations must provide a linked data source. 
+     * Implementations must provide a linked data source. 
      */
-    protected abstract void setupLinkedDataSource(Context context);
+    protected abstract LinkedDataService setupLinkedDataSource(Context context);
 
     /**
-     * Implementations may override this method to prvoide a specialized Document Maker.
+     * Implementations must provide a document maker.
      */
-    protected void setupDocMaker(Context context) {
-        docMaker = new DocumentMakerImpl();        
-    }
+    protected abstract DocumentMaker setupDocMaker(Context context);
+
+    /**
+     * Implementations must provide a Solr server.
+     */
+    protected abstract SolrIndexService setupSolrServer(Context context);
 
 	
 	@Override
-    protected void setup(Context context) throws IOException,
-            InterruptedException {
-	    setupDocMaker(context);
-	    setupSolrServer(context);
-	    setupLinkedDataSource(context);
-    }
+	protected void setup(Context context) throws IOException,
+			InterruptedException {
+		docMaker = setupDocMaker(context);
+		solrServer = setupSolrServer(context);
+		dataSource = setupLinkedDataSource(context);
+	}
 
     @Override
 	protected void map(LongWritable lineNum, Text value, Context context)
@@ -76,7 +76,7 @@ public abstract class BaseIndexUris extends Mapper<LongWritable , Text, Text, Te
         }
 
         try {
-            doc = makeDocument(uri, data);
+            doc = docMaker.makeDocument(uri, data);
         } catch (Throwable ex) {
             log.error(ex, ex);
             context.write(value,
@@ -85,7 +85,7 @@ public abstract class BaseIndexUris extends Mapper<LongWritable , Text, Text, Te
         }
         
         try {
-            indexToSolr(doc);
+        	solrServer.add(doc);
         } catch (Throwable ex) {
             log.error(ex, ex);
             context.write(value,
@@ -96,25 +96,11 @@ public abstract class BaseIndexUris extends Mapper<LongWritable , Text, Text, Te
         context.write(value, new  Text("SUCCESS"));	    
 	}
 
-    protected void setupSolrServer(Context context){
-        String solrUrl = context.getConfiguration().get(BuildIndexUtils.solrUrl);
-        solrServer = new HttpSolrServer(solrUrl);
-    }
-
-    protected void indexToSolr(SolrInputDocument doc) throws SolrServerException, IOException {
-        solrServer.add(doc);
-    }
-
-    protected SolrInputDocument makeDocument(String uri, Model data) {
-        return docMaker.makeDocument(uri, data);
-    }
-
     protected Model getLinkedData(String uri
            ) throws Exception {
     	Model m = ModelFactory.createDefaultModel();
     	dataSource.getLinkedData( uri, m);
         return m; 
     }
-
 	
 }

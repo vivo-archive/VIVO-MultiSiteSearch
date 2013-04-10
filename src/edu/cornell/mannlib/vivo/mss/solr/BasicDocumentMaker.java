@@ -4,12 +4,14 @@ import org.apache.solr.common.SolrInputDocument;
 
 import com.hp.hpl.jena.rdf.model.Model;
 
-public class DocumentMakerImpl implements DocumentMaker{  
+public class BasicDocumentMaker implements DocumentMaker{  
 
     @Override
     public SolrInputDocument makeDocument(String uri, Model data) {
         SolrInputDocument doc = new SolrInputDocument();
-        doc.addField("uri", uri);
+        doc.addField("URI", uri);
+        doc.addField("site_name", "BOGUS");
+        doc.addField("site_URL", "BOGUS");
         return doc;
     }
 

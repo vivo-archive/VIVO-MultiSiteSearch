@@ -2,7 +2,6 @@
 
 package testInHadoop;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.hadoop.conf.Configuration;
@@ -10,15 +9,14 @@ import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.util.ToolRunner;
-import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.common.SolrInputDocument;
-
-import com.hp.hpl.jena.rdf.model.Model;
 
 import edu.cornell.mannlib.vivo.mss.discovery.DiscoveryWorker;
 import edu.cornell.mannlib.vivo.mss.hadoop.BaseBuildIndex;
 import edu.cornell.mannlib.vivo.mss.hadoop.BaseIndexUris;
 import edu.cornell.mannlib.vivo.mss.hadoop.BaseUriDiscovery;
+import edu.cornell.mannlib.vivo.mss.linkedData.LinkedDataService;
+import edu.cornell.mannlib.vivo.mss.solr.DocumentMaker;
+import edu.cornell.mannlib.vivo.mss.solr.SolrIndexService;
 
 /**
  * TODO
@@ -39,13 +37,13 @@ public class DummyBuildIndex extends BaseBuildIndex {
 	public Class<? extends Mapper<LongWritable, Text, Text, Text>> getIndexClass() {
 		return DummyIndexer.class;
 	}
-	
+
 	public static class DummyDiscovery extends BaseUriDiscovery {
 		public DummyDiscovery() {
 			super(new DiscoverHardcodedUris());
 		}
 	}
-	
+
 	public static class DiscoverHardcodedUris implements DiscoveryWorker {
 		@Override
 		public Iterable<String> getUrisForSite(String siteUrl) {
@@ -60,35 +58,24 @@ public class DummyBuildIndex extends BaseBuildIndex {
 	}
 
 	public static class DummyIndexer extends BaseIndexUris {
+
 		@Override
-		protected void setupLinkedDataSource(Context context) {
-			System.out
-					.println("BaseIndexUris.setupLinkedDataSource() not implemented.");
+		protected LinkedDataService setupLinkedDataSource(Context context) {
+			throw new RuntimeException(
+					"BaseIndexUris.setupLinkedDataSource() not implemented.");
 		}
 
 		@Override
-		protected void indexToSolr(SolrInputDocument doc)
-				throws SolrServerException, IOException {
-			System.out.println("DummyIndexer.indexToSolr() not implemented.");
+		protected DocumentMaker setupDocMaker(Context context) {
+			throw new RuntimeException(
+					"BaseIndexUris.setupDocMaker() not implemented.");
 		}
 
 		@Override
-		protected SolrInputDocument makeDocument(String uri, Model data) {
-			System.out.println("DummyIndexer.makeDocument() not implemented.");
-			return null;
-		}
-
-		@Override
-		protected Model getLinkedData(String uri) throws Exception {
-			System.out.println("DummyIndexer.getLinkedData() not implemented.");
-			return null;
-		}
-
-		@Override
-		protected void setupSolrServer(Context context) {
-			System.out.println("DummyIndexer.setupSolrServer() not implemented.");
+		protected SolrIndexService setupSolrServer(Context context) {
+			throw new RuntimeException(
+					"BaseIndexUris.setupSolrServer() not implemented.");
 		}
 
 	}
-
 }
