@@ -17,7 +17,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
  */
 public class LinkedDataTestUtils{
     public static String URI_BDC34 = "http://vivo.cornell.edu/individual/individual19589";
-    public static String bdc34ExampleRdf = "edu/cornell/mannlib/vivo/mms/linkedData/resources/bdc34.n3";
+    public static String bdc34ExampleRdf = "edu/cornell/mannlib/vivo/mss/linkedData/resources/bdc34.n3";
     
     public static Model getBdc34TestModel(){
          InputStream in = 
