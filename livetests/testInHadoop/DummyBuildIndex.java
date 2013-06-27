@@ -15,8 +15,8 @@ import edu.cornell.mannlib.vivo.mss.hadoop.BaseBuildIndex;
 import edu.cornell.mannlib.vivo.mss.hadoop.BaseIndexUris;
 import edu.cornell.mannlib.vivo.mss.hadoop.BaseUriDiscovery;
 import edu.cornell.mannlib.vivo.mss.linkedData.LinkedDataService;
-import edu.cornell.mannlib.vivo.mss.solr.DocumentMaker;
 import edu.cornell.mannlib.vivo.mss.solr.SolrIndexService;
+import edu.cornell.mannlib.vivo.mss.solr.documentMaker.DocumentMaker;
 
 /**
  * TODO

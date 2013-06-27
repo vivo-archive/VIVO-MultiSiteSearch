@@ -7,9 +7,9 @@ import edu.cornell.mannlib.vivo.mss.linkedData.HttpLinkedDataService;
 import edu.cornell.mannlib.vivo.mss.linkedData.LinkedDataService;
 import edu.cornell.mannlib.vivo.mss.linkedData.UrisToExpand;
 import edu.cornell.mannlib.vivo.mss.solr.BasicSolrIndexService;
-import edu.cornell.mannlib.vivo.mss.solr.DocumentMaker;
-import edu.cornell.mannlib.vivo.mss.solr.BasicDocumentMaker;
 import edu.cornell.mannlib.vivo.mss.solr.SolrIndexService;
+import edu.cornell.mannlib.vivo.mss.solr.documentMaker.DocumentMaker;
+import edu.cornell.mannlib.vivo.mss.solr.documentMaker.StandardVivoDocumentMaker;
 
 /**
  * This class is an example of a specific trivial specialization of the
@@ -29,14 +29,15 @@ class VivoIndexUris extends BaseIndexUris {
 
 	@Override
 	protected DocumentMaker setupDocMaker(Context context) {
-		return new BasicDocumentMaker();
+		return new StandardVivoDocumentMaker("Silly data",
+				"http://localhost:8080/vivo");
 	}
 
 	@Override
 	protected SolrIndexService setupSolrServer(Context context) {
 		String solrUrl = context.getConfiguration()
 				.get(BuildIndexUtils.solrUrl);
-		return new BasicSolrIndexService(solrUrl);     
+		return new BasicSolrIndexService(solrUrl);
 	}
 
 }

@@ -122,7 +122,7 @@
   <!-- ================================= 
 	   target: nestedjar
 	   ================================= -->
-  <target name="nestedjar" description="--> make jar with 3rd-party jars in /lib">
+  <target name="nestedjar" depends="unitTests" description="--> make jar with 3rd-party jars in /lib">
     <static:load input="project.classpath" refid="ivy.classpath" />
     <jar destfile="${build.dir}/nested-multisite.jar">      
       <zipfileset dir="${ivy.lib.dir}" prefix="lib/">        

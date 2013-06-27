@@ -2,7 +2,7 @@
 
 <!-- Schema created for VIVOsearch.org -->
 
-<schema name="vivosearch" version="1.0"> 
+<schema name="vivosearch" version="2.0"> 
     
     <types> 
         <!-- 
@@ -37,7 +37,7 @@
                 <filter class="solr.LowerCaseFilterFactory" /> 
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" /> 
                 <filter class="solr.ASCIIFoldingFilterFactory" /> 
-                <filter class="solr.PorterStemFilterFactory" language="English" /> 
+                <filter class="solr.PorterStemFilterFactory" /> 
                 <filter class="solr.RemoveDuplicatesTokenFilterFactory" /> 
             </analyzer> 
         </fieldType>
@@ -50,7 +50,7 @@
                 <!-- <tokenizer class="solr.HTMLStripStandardTokenizerFactory" />  -->
                 <tokenizer class="solr.StandardTokenizerFactory" /> 
                 <filter class="solr.LowerCaseFilterFactory" /> 
-                <filter class="solr.ShingleFilterFactory" outputUnigrams="false" outputUnigramIfNoNgram="true" maxShingleSize="100" /> 
+                <filter class="solr.ShingleFilterFactory" outputUnigrams="false" maxShingleSize="100" /> 
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" /> 
                 <filter class="solr.RemoveDuplicatesTokenFilterFactory" /> 
             </analyzer> 
@@ -58,7 +58,7 @@
                 <!-- <tokenizer class="solr.HTMLStripStandardTokenizerFactory" />  -->
                 <tokenizer class="solr.StandardTokenizerFactory" /> 
                 <filter class="solr.LowerCaseFilterFactory" /> 
-                <filter class="solr.ShingleFilterFactory" outputUnigrams="true" outputUnigramIfNoNgram="true" maxShingleSize="3" /> 
+                <filter class="solr.ShingleFilterFactory" outputUnigrams="true" maxShingleSize="3" /> 
                 <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt" enablePositionIncrements="true" /> 
                 <filter class="solr.RemoveDuplicatesTokenFilterFactory" /> 
             </analyzer> 

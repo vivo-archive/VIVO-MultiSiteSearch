@@ -13,8 +13,8 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 
 import edu.cornell.mannlib.vivo.mss.linkedData.LinkedDataService;
-import edu.cornell.mannlib.vivo.mss.solr.DocumentMaker;
 import edu.cornell.mannlib.vivo.mss.solr.SolrIndexService;
+import edu.cornell.mannlib.vivo.mss.solr.documentMaker.DocumentMaker;
 
 /**
  * This class accepts a list of URIs to index and then gets the linked data for the

@@ -14,8 +14,8 @@ public final class HttpClientFactory {
 	public static HttpClient standardClient() {
 		HttpClient http = new DefaultHttpClient();
 		
-		// Set the socket timeout to 30 seconds.
-		http.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 30000);
+		// Set the socket timeout to 60 seconds.
+		http.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 60000);
 
 		return http;
 	}

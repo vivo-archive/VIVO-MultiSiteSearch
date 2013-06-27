@@ -91,7 +91,7 @@ public class BasicHttpWorker implements HttpWorker {
 	private HttpGet buildGetMethod(BasicHttpWorkerRequest<?> request) {
 		String qString = URLEncodedUtils.format(request.getParameters(), utf8);
 		String bareUrl = request.getUrlWithoutParameters();
-		HttpGet get = new HttpGet(bareUrl + qString);
+		HttpGet get = new HttpGet(bareUrl + '?' + qString);
 		applyAcceptTypes(get, request);
 		return get;
 	}
